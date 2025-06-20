@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eco-acción</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #56ab2f, #a8e063);
+    color: #2c3e50;
+    user-select: none;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Header */
+  header {
+    background: #2ecc71;
+    color: white;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  header h1 {
+    margin: 0;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    font-size: 2.8rem;
+    text-shadow: 1px 1px 3px #145214;
+    letter-spacing: 1.2px;
+  }
+  /* Navigation */
+  nav {
+    background-color: #27ae60;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    padding: 0.8rem 0;
+    box-shadow: inset 0 -3px 6px #145214;
+    position: sticky;
+    top: 72px; /* adjusted for header height */
+    z-index: 999;
+  }
+  nav button {
+    background-color: #2ecc71;
+    border: none;
+    color: white;
+    padding: 0.85rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 8px 14px rgba(46, 204, 113, 0.6);
+    transition: background-color 0.35s ease, transform 0.2s ease;
+    user-select:none;
+  }
+  nav button:hover, nav button.active {
+    background-color: #1e8449;
+    box-shadow: 0 10px 20px rgba(30, 132, 73, 0.8);
+    transform: scale(1.1);
+  }
+
+  /* Main content */
+  main {
+    max-width: 960px;
+    margin: 2rem auto 4rem;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+    padding: 3rem 3.5rem 4.5rem;
+    min-height: 600px;
+    position: relative;
+  }
+  /* Sections */
+  section {
+    display: none;
+    animation: fadeInUp 1s ease forwards;
+  }
+  section.active {
+    display: block;
+  }
+
+  /* Titles */
+  h2 {
+    color: #27ae60;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    font-size: 2.4rem;
+    text-align: center;
+    margin-bottom: 2.2rem;
+    text-shadow: 1px 1px 4px #145214;
+    letter-spacing: 0.02em;
+  }
+
+  /* Paragraphs and lists */
+  p, li {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #34495e;
+  }
+  ul {
+    margin-left: 1.8rem;
+    margin-bottom: 2.3rem;
+  }
+  li {
+    margin-bottom: 1rem;
+  }
+
+  /* Figures */
+  figure {
+    margin: 2rem auto 3rem;
+    max-width: 320px;
+    text-align: center;
+  }
+  figure img {
+    max-width: 100%;
+    border-radius: 18px;
+    box-shadow: 0 14px 28px rgba(39, 174, 96, 0.45);
+    cursor: pointer;
+    transition: transform 0.4s ease;
+    will-change: transform;
+  }
+  figure img:hover {
+    transform: scale(1.12) rotate(1.5deg);
+  }
+  figure figcaption {
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #555;
+    font-size: 1rem;
+  }
+
+  /* Tip box */
+  .tip-box {
+    max-width: 720px;
+    margin: 1.5rem auto 3rem;
+    border-left: 10px solid #27ae60;
+    background-color: #e8f9e9;
+    padding: 1.5rem 2rem;
+    border-radius: 18px;
+    font-style: italic;
+    font-size: 1.18rem;
+    color: #115d0c;
+    box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+    cursor: pointer;
+    user-select:none;
+    transition: background-color 0.3s ease;
+  }
+  .tip-box:hover, .tip-box:focus {
+    background-color: #daf1c9;
+    outline: none;
+  }
+
+  /* Buttons for age selection */
+  #age-selection {
+    max-width: 480px;
+    margin: 0 auto 2.5rem auto;
+    text-align: center;
+  }
+  #age-selection h3 {
+    font-size: 2rem;
+    margin-bottom: 1.4rem;
+    font-weight: 700;
+    color: #2c3e50;
+  }
+  .age-btn {
+    background-color: #16a085;
+    color: white;
+    border: none;
+    border-radius: 48px;
+    padding: 1rem 2.4rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 0.6rem 0.8rem;
+    box-shadow: 0 8px 12px rgba(22,160,133,0.6);
+    transition: background-color 0.3s ease, transform 0.15s ease;
+    font-weight: 700;
+    user-select:none;
+  }
+  .age-btn:hover, .age-btn:focus {
+    background-color: #13816c;
+    transform: scale(1.06);
+    outline: none;
+  }
+
+  /* Quiz */
+  .quiz-level-selection {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .quiz-level-btn {
+    background-color: #16a085;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 0.8rem 1.8rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0.5rem;
+    box-shadow: 0 6px 10px rgba(22,160,133,0.4);
+    transition: background-color 0.3s ease, transform 0.15s ease;
+  }
+  .quiz-level-btn:hover, .quiz-level-btn.active {
+    background-color: #13816c;
+    transform: scale(1.05);
+  }
+
+  .quiz-question {
+    margin-bottom: 1.8rem;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #196f3d;
+    user-select:none;
+    text-align: center;
+  }
+
+  .quiz-options {
+    list-style: none;
+    padding: 0;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .quiz-options li {
+    margin-bottom: 1.3rem;
+  }
+  .quiz-options label {
+    cursor: pointer;
+    font-size: 1.15rem;
+    user-select:none;
+    padding: 0.9rem 1.3rem;
+    border-radius: 12px;
+    display: block;
+    background: #ecf0f1;
+    transition: background 0.3s ease;
+    width: 100%;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    border: 2px solid transparent;
+  }
+  .quiz-options input[type="radio"] {
+    margin-right: 1rem;
+    cursor: pointer;
+    transform: scale(1.3);
+    vertical-align: middle;
+  }
+  .quiz-options label:hover {
+    background: #d1f2eb;
+  }
+  .quiz-options input[type="radio"]:checked + span {
+    font-weight: 700;
+    color: #117a56;
+  }
+  button.submit-quiz {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 1.1rem 1.7rem;
+    border-radius: 40px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(39,174,96,0.6);
+    transition: background-color 0.35s ease, transform 0.15s ease;
+    margin: 2rem auto 0;
+    min-width: 140px;
+    display: block;
+    user-select:none;
+  }
+  button.submit-quiz:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  button.submit-quiz:hover:not(:disabled) {
+    background-color: #219150;
+    transform: scale(1.08);
+    box-shadow: 0 10px 25px rgba(33,145,80,0.75);
+  }
+
+  .quiz-result {
+    margin-top: 2.5rem;
+    font-weight: 700;
+    font-size: 1.4rem;
+    text-align: center;
+    min-height: 2.2rem;
+    user-select:none;
+  }
+  .quiz-progress {
+    width: 90%;
+    max-width: 560px;
+    height: 16px;
+    background-color: #d1d8e0;
+    border-radius: 10px;
+    margin: 0 auto 1.5rem auto;
+    overflow: hidden;
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.12);
+  }
+  .quiz-progress-bar {
+    height: 100%;
+    background-color: #27ae60;
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 10px 0 0 10px;
+  }
+  #quiz-timer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 1rem;
+    min-height: 1.5rem;
+  }
+
+
+  /* Actionable tips section */
+  #action {
+    max-width: 800px;
+    margin: 2rem auto 3rem;
+  }
+  #action ul {
+    list-style-type: disc;
+    padding-left: 1.7rem;
+  }
+  #action li {
+    margin-bottom: 1.4rem;
+    font-size: 1.15rem;
+    line-height: 1.65;
+  }
+
+  /* Developers section */
+  #developers {
+    max-width: 700px;
+    margin: 2rem auto 3rem;
+    text-align: center;
+  }
+  #developers ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  #developers li {
+    background-color: #ecf0f1;
+    border-radius: 15px;
+    padding: 1.2rem 2rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2c3e50;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+  }
+  #developers li:hover {
+    transform: translateY(-8px);
+    background-color: #d1f2eb;
+  }
+
+
+  /* Chatbot styles */
+  #chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1100;
+    font-family: 'Poppins', sans-serif;
+  }
+  #chatbot-button {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: #27ae60;
+    box-shadow: 0 4px 12px rgba(39,174,96,0.7);
+    border: none;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select:none;
+    transition: background-color 0.3s ease;
+  }
+  #chatbot-button:hover {
+    background-color: #1e8449;
+  }
+  #chatbot-window {
+    width: 340px;
+    max-width: 90vw;
+    height: 440px;
+    background: white;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.25);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin-bottom: 14px;
+    user-select:none;
+  }
+  #chatbot-header {
+    background-color: #27ae60;
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    padding: 13px 15px;
+    text-align: center;
+    user-select:none;
+  }
+  #chatbot-messages {
+    flex-grow: 1;
+    padding: 10px 15px;
+    background: #f7fef8;
+    overflow-y: auto;
+    font-size: 1rem;
+  }
+  .message {
+    margin-bottom: 14px;
+    max-width: 85%;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    padding: 8px 12px;
+    border-radius: 15px;
+    user-select:text;
+  }
+  .message.user {
+    background: #d1f2eb;
+    margin-left: auto;
+    border-bottom-right-radius: 3px;
+  }
+  .message.bot {
+    background: #27ae60;
+    color: white;
+    border-bottom-left-radius: 3px;
+  }
+  #chatbot-input-area {
+    padding: 10px 12px;
+    border-top: 1px solid #ccc;
+    background: white;
+    display: flex;
+    gap: 8px;
+  }
+  #chatbot-input {
+    flex-grow: 1;
+    padding: 10px 14px;
+    border-radius: 30px;
+    border: 1.8px solid #27ae60;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  #chatbot-input:focus {
+    border-color: #1e8449;
+  }
+  #chatbot-send {
+    background-color: #27ae60;
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select:none;
+    transition: background-color 0.3s ease;
+  }
+  #chatbot-send:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+  }
+  #chatbot-send:hover:not(:disabled) {
+    background-color: #1e8449;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    #chatbot-window {
+      width: 90vw;
+      height: 65vh;
+      max-height: none;
+      margin-bottom: 10px;
+    }
+    nav button {
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+    }
+  }
+
+</style>
+</head>
+<body>
+<header>
+  <h1>Eco-acción</h1>
+</header>
+<nav>
+  <button class="active" data-section="welcome" aria-label="Ir a Inicio">Inicio</button>
+  <button data-section="kids" aria-label="Sección para Niños">Niños</button>
+  <button data-section="teens" aria-label="Sección para Adolescentes">Adolescentes</button>
+  <button data-section="adults" aria-label="Sección para Adultos">Adultos</button>
+  <button data-section="action" aria-label="Consejos para ayudar desde casa">Cómo ayudar desde casa</button>
+  <button data-section="quiz" aria-label="Jugar quiz interactivo">Juego/Quiz</button>
+  <button data-section="developers" aria-label="Información de los desarrolladores">Desarrolladores</button>
+</nav>
+
+<main>
+  <section id="welcome" class="active" tabindex="0" aria-label="Bienvenida">
+    <h2>Bienvenido</h2>
+    <div id="age-selection" role="radiogroup" aria-labelledby="select-age-label">
+      <h3 id="select-age-label">Selecciona tu grupo de edad para comenzar a aprender</h3>
+      <button class="age-btn" data-age="kids" role="radio" aria-checked="false">Niños (6-12 años)</button>
+      <button class="age-btn" data-age="teens" role="radio" aria-checked="false">Adolescentes (13-17 años)</button>
+      <button class="age-btn" data-age="adults" role="radio" aria-checked="false">Adultos (18+ años)</button>
+    </div>
+    <p style="text-align:center; font-size:1.3rem; margin-top: 2rem;">
+      Aprende sobre la naturaleza, la conservación y cómo cuidar nuestro planeta con actividades y contenidos hechos para ti.
+    </p>
+    <figure>
+      <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&amp;fit=crop&w=600&q=80" alt="Naturaleza y planeta tierra" />
+      <figcaption>El planeta Tierra nos necesita</figcaption>
+    </figure>
+    <div id="tip-box" tabindex="0" role="button" aria-pressed="false" title="Haz click o presiona Enter para ver una curiosidad ambiental" class="tip-box">
+      ¿Sabías qué? Las abejas polinizan aproximadamente el 80% de las plantas con flores, ¡son vitales para nuestra alimentación!
+    </div>
+  </section>
+
+  <section id="kids" tabindex="0" aria-label="Educación para niños">
+    <h2>Educación Ambiental para Niños</h2>
+    <p>¡Hola! Vamos a aprender de forma divertida cosas muy importantes sobre el medio ambiente y cómo cuidarlo.</p>
+    <ul>
+      <li><strong>¿Qué es el Medio Ambiente?</strong> Es todo lo que nos rodea: árboles, animales, ríos, montañas y el aire que respiramos.</li>
+      <li><strong>Reciclaje:</strong> Separa el papel, plástico y vidrio para ayudar a la Tierra a estar limpia.</li>
+      <li><strong>Agua:</strong> No desperdicies agua, cierra el grifo mientras te cepillas los dientes.</li>
+      <li><strong>Energía:</strong> Apaga las luces cuando salgas de una habitación.</li>
+      <li><strong>Biodiversidad:</strong> Hay muchos animales y plantas que debemos proteger porque hacen que la Tierra sea especial.</li>
+      <li><strong>Contaminación:</strong> Usa los botes de basura y no tires basura en la calle.</li>
+      <li><strong>Compostaje:</strong> Aprende cómo los restos de comida pueden convertirse en alimento para la tierra.</li>
+      <li><strong>Transporte:</strong> Camina o usa tu bicicleta para ir a la escuela o al parque. ¡Es divertido y ayuda al aire!</li>
+      <li><strong>Animales:</strong> Nunca molestes a los animales salvajes y ayuda a proteger sus hogares.</li>
+      <li><strong>Plantas:</strong> Planta un árbol o una flor. ¡Ayudas a la Tierra a respirar y a los animales a tener hogar!</li>
+    </ul>
+    <figure>
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&w=600&q=80" alt="Niños aprendiendo en naturaleza" />
+      <figcaption>Aprender en la naturaleza es divertido y emocionante</figcaption>
+    </figure>
+    <div id="tip-box-kids" tabindex="0" role="button" aria-pressed="false" title="Haz click o presiona Enter para ver una curiosidad para niños" class="tip-box">
+      ¿Sabías qué? Una sola botella de plástico puede tardar hasta 450 años en descomponerse.
+    </div>
+  </section>
+
+  <section id="teens" tabindex="0" aria-label="Educación para adolescentes">
+    <h2>Educación Ambiental para Adolescentes</h2>
+    <p>Aquí aprenderás cómo la contaminación afecta nuestro mundo y qué puedes hacer para cambiarlo.</p>
+    <ul>
+      <li><strong>Impacto Humano:</strong> La contaminación del aire y agua afecta nuestra salud y ecosistemas.</li>
+      <li><strong>Reciclaje avanzado:</strong> Reduce, reutiliza y recicla para disminuir residuos.</li>
+      <li><strong>Conservación del Agua:</strong> El ahorro y cuidado del agua es vital para nuestro futuro.</li>
+      <li><strong>Energías Renovables:</strong> Aprende sobre la solar, eólica y otras limpias.</li>
+      <li><strong>Cambio Climático:</strong> Comprende cómo las emisiones afectan el clima global.</li>
+      <li><strong>Contaminación Plástica:</strong> El plástico en ríos y mares daña la vida marina.</li>
+      <li><strong>Consumo Responsable:</strong> Piensa antes de comprar. ¿Realmente lo necesitas? ¿Es sostenible?</li>
+      <li><strong>Activismo Digital:</strong> Usa las redes sociales para difundir conciencia ambiental y unirte a movimientos.</li>
+      <li><strong>Eco-innovación:</strong> Explora cómo la tecnología puede ofrecer soluciones a problemas ambientales.</li>
+      <li><strong>Transporte Sostenible:</strong> Opta por la bicicleta, caminar o el transporte público para reducir tu huella de carbono.</li>
+    </ul>
+    <figure>
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&w=600&q=80" alt="Adolescente reciclando" />
+      <figcaption>Tu acción cuenta para un mundo mejor</figcaption>
+    </figure>
+    <div id="tip-box-teens" tabindex="0" role="button" aria-pressed="false" title="Haz click o presiona Enter para ver una curiosidad para adolescentes" class="tip-box" style="background:#fff9c4; border-color:#fbc02d;">
+      ¿Sabías qué? Solo el 9% del plástico producido en el mundo es reciclado correctamente.
+    </div>
+  </section>
+
+  <section id="adults" tabindex="0" aria-label="Educación para adultos">
+    <h2>Educación Ambiental para Adultos</h2>
+    <p>Comprende los desafíos globales del cambio climático y cómo tus decisiones impactan el planeta.</p>
+    <ul>
+      <li><strong>Cambio Climático:</strong> Causas, consecuencias y cómo mitigarlo.</li>
+      <li><strong>Consumo Responsable:</strong> Escoger productos sostenibles y reducir desperdicio.</li>
+      <li><strong>Eficiencia Energética:</strong> Optimiza el uso energético en hogar y transporte.</li>
+      <li><strong>Políticas Ambientales:</strong> Participa en campañas y educación ambiental.</li>
+      <li><strong>Reforestación:</strong> Los árboles absorben CO2 y protegen biodiversidad.</li>
+      <li><strong>Economía Circular:</strong> Reutilizar y reciclar para evitar desperdicios.</li>
+      <li><strong>Inversión Sostenible:</strong> Apoya empresas y fondos que priorizan la sostenibilidad.</li>
+      <li><strong>Huella Ecológica:</strong> Calcula tu impacto y busca formas de reducirlo en todos los aspectos de tu vida.</li>
+      <li><strong>Voluntariado:</strong> Participa en proyectos de conservación y limpieza de tu comunidad.</li>
+      <li><strong>Educación y Conciencia:</strong> Comparte tu conocimiento y motiva a otros a tomar acciones ambientales.</li>
+    </ul>
+    <figure>
+      <img src="https://images.unsplash.com/photo-1520975692654-686a0d233546?auto=format&w=600&q=80" alt="Adulto plantando árbol" />
+      <figcaption>Actúa hoy por el mañana del planeta</figcaption>
+    </figure>
+    <div id="tip-box-adults" tabindex="0" role="button" aria-pressed="false" title="Haz click o presiona Enter para ver una curiosidad para adultos" class="tip-box" style="background:#ffe0b2; border-color:#f57c00;">
+      ¿Sabías qué? Los árboles pueden almacenar hasta 22 kg de CO2 al año.
+    </div>
+  </section>
+
+  <section id="action" tabindex="0" aria-label="Consejos para ayudar desde casa">
+    <h2>Cómo ayudar desde casa, la escuela y más allá</h2>
+    <p>Pequeñas acciones diarias para proteger nuestro planeta:</p>
+    <h3>En casa:</h3>
+    <ul>
+      <li>Reduce plásticos desechables; usa bolsas y botellas reutilizables.</li>
+      <li>Apaga y desconecta aparatos eléctricos cuando no los uses. ¡Ahorra energía!</li>
+      <li>Usa regaderas de bajo flujo y reduce el tiempo en la ducha para ahorrar agua.</li>
+      <li>Separa tu basura en orgánicos e inorgánicos para facilitar el reciclaje.</li>
+      <li>Composta tus residuos orgánicos para crear abono natural para tus plantas.</li>
+      <li>Evita desperdiciar alimentos; comparte y reutiliza lo que sobra.</li>
+      <li>Cultiva tu propio jardín o huerto, aunque sea pequeño. ¡Fomenta la biodiversidad!</li>
+      <li>Usa productos de limpieza ecológicos y biodegradables.</li>
+      <li>Revisa y repara las fugas de agua. ¡Una pequeña fuga puede desperdiciar mucha agua al año!</li>
+      <li>Descongela los alimentos en el refrigerador en lugar de usar agua caliente.</li>
+    </ul>
+    <h3>En la escuela/oficina:</h3>
+    <ul>
+      <li>Usa papel reciclado y imprime solo lo necesario.</li>
+      <li>Apaga las luces y los equipos electrónicos al salir del aula u oficina.</li>
+      <li>Lleva tu propia botella de agua reutilizable y tupper para el almuerzo.</li>
+      <li>Organiza o participa en clubes o iniciativas ambientales.</li>
+      <li>Promueve el reciclaje y la separación de residuos en tu escuela/trabajo.</li>
+      <li>Usa ambas caras del papel antes de reciclarlo.</li>
+      <li>Propón la instalación de sensores de luz en áreas comunes.</li>
+      <li>Anima a tus compañeros a unirse a un grupo de transporte compartido.</li>
+      <li>Organiza días de limpieza o campañas de sensibilización ambiental.</li>
+      <li>Usa el modo de ahorro de energía en computadoras y otros dispositivos.</li>
+    </ul>
+    <h3>En tu comunidad y al aire libre:</h3>
+    <ul>
+      <li>Prefiere caminar, bicicleta o transporte público sobre automóvil para reducir emisiones.</li>
+      <li>Compra productos locales y de temporada para reducir impacto ambiental y apoyar a productores.</li>
+      <li>Participa en actividades de limpieza y reforestación comunitaria. ¡Sé parte del cambio!</li>
+      <li>Dona ropa, juguetes y otros artículos en buen estado en lugar de tirarlos.</li>
+      <li>Si tienes jardín, planta árboles y plantas nativas que ayuden a la biodiversidad local.</li>
+      <li>Infórmate sobre la fauna y flora local y respétalas.</li>
+      <li>Evita usar pesticidas o herbicidas en tu jardín que puedan dañar insectos beneficiosos.</li>
+      <li>Apoya a empresas con prácticas sostenibles.</li>
+      <li>Sé un defensor del medio ambiente, hablando con amigos y familiares sobre la importancia de cuidarlo.</li>
+      <li>Participa en programas de monitoreo ambiental o ciencia ciudadana.</li>
+    </ul>
+    <figure>
+      <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&w=600&q=80" alt="Manos plantando semilla" />
+      <figcaption>¡Cada acción cuenta para un futuro mejor!</figcaption>
+    </figure>
+  </section>
+
+  <section id="quiz" tabindex="0" aria-label="Juego interactivo de preguntas ambientales">
+    <h2>¡Pon a prueba tus conocimientos!</h2>
+    <p style="text-align:center; font-size:1.15rem; margin-bottom: 2rem;">Selecciona un nivel para comenzar. ¡Todos los niveles tienen un temporizador de 20 segundos!</p>
+
+    <div class="quiz-level-selection">
+      <button class="quiz-level-btn" data-level="1">Nivel 1: Básico</button>
+      <button class="quiz-level-btn" data-level="2">Nivel 2: Intermedio</button>
+      <button class="quiz-level-btn" data-level="3">Nivel 3: Avanzado</button>
+      <button class="quiz-level-btn" data-level="4">Nivel 4: Desafío</button>
+    </div>
+
+    <div class="quiz-progress" aria-label="Progreso del juego">
+      <div class="quiz-progress-bar" id="quiz-progress-bar"></div>
+    </div>
+    <div id="quiz-timer"></div>
+    <div id="quiz-container">
+      <div class="quiz-question" id="question-text"></div>
+      <ul class="quiz-options" id="quiz-options"></ul>
+      <button class="submit-quiz" id="submit-btn" disabled aria-disabled="true" aria-live="polite">Responder</button>
+      <div class="quiz-result" id="quiz-result" role="alert" aria-live="assertive"></div>
+    </div>
+  </section>
+
+  <section id="developers" tabindex="0" aria-label="Sección de Desarrolladores">
+    <h2>Nuestro Equipo de Desarrolladores</h2>
+    <p>Estamos comprometidos con la educación ambiental y el desarrollo de herramientas interactivas para el aprendizaje.</p>
+    <ul>
+      <li>Tyler Steve Pizarro Tijerino</li>
+      <li>Freddy Noel Molina Martinez</li>
+      <li>Ignacio Gabriel Cruz Rueda</li>
+      <li>Andy José Cruz Baltodano</li>
+      <li>Roberth Antonio Zambrana Espinosa</li>
+    </ul>
+  </section>
+
+</main>
+
+<div id="chatbot-container" aria-label="Chatbot educativo" role="region">
+  <button id="chatbot-button" aria-expanded="false" aria-controls="chatbot-window" aria-label="Abrir chatbot">&#128172;</button>
+  <div id="chatbot-window" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1" aria-label="Ventana de chat">
+    <div id="chatbot-header">EcoBot 🌿</div>
+    <div id="chatbot-messages" tabindex="0" aria-live="polite" aria-relevant="additions" role="log"></div>
+    <div id="chatbot-input-area">
+      <input type="text" id="chatbot-input" aria-label="Escribe tu pregunta" placeholder="Escribe tu pregunta aquí..." autocomplete="off" />
+      <button id="chatbot-send" aria-label="Enviar mensaje" disabled>&#9658;</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Eco-acción - Aprende cuidando nuestro planeta</p>
+</footer>
+
+<script>
+  const navButtons = document.querySelectorAll('nav button');
+  const sections = document.querySelectorAll('main section');
+  const ageBtns = document.querySelectorAll('.age-btn');
+  let currentAgeCategory = null;
+
+  const tipsByCategory = {
+    welcome: [
+      "Las abejas polinizan aproximadamente el 80% de las plantas con flores, ¡son vitales para nuestra alimentación!",
+      "El huracán más fuerte registrado fue Patricia, con vientos de hasta 345 km/h, demostrando la fuerza de la naturaleza.",
+      "Los árboles jóvenes absorben más CO2 en comparación con árboles viejos; plantar es clave.",
+      "El reciclaje de una lata de aluminio ahorra energía suficiente para mantener una televisión encendida durante 3 horas.",
+      "Casi el 70% de la Tierra está cubierta de agua, ¡pero solo una pequeña parte es dulce y accesible!",
+      "Los océanos producen más de la mitad del oxígeno de la Tierra. ¡Necesitamos mantenerlos sanos!",
+      "La energía geotérmica aprovecha el calor del interior de la Tierra para generar electricidad.",
+      "El bambú es la planta de más rápido crecimiento en el mundo y puede ser una alternativa sostenible a la madera.",
+      "Las bombillas LED usan hasta un 80% menos de energía que las bombillas incandescentes y duran mucho más.",
+      "Más de un tercio de los alimentos producidos globalmente se desperdicia, lo que contribuye a las emisiones de gases de efecto invernadero."
+    ],
+    kids: [
+      "Una sola botella de plástico puede tardar hasta 450 años en descomponerse. ¡Mejor usa una reutilizable!",
+      "Las tortugas pueden vivir más de 100 años, y tenemos que cuidar sus hogares en el mar y la tierra.",
+      "Los árboles producen oxígeno que necesitamos para respirar, ¡son los pulmones de la Tierra!",
+      "Los insectos, aunque pequeños, mantienen el equilibrio de la naturaleza ayudando a polinizar y descomponer.",
+      "Apaga las luces cuando no estés en una habitación. ¡Así ayudas al planeta y a tus papás a ahorrar!",
+      "Cierra el grifo mientras te enjabonas las manos. ¡Cada gota de agua cuenta!",
+      "Cada vez que reciclas una lata de aluminio, ahorras la energía para que una TV funcione durante 3 horas.",
+      "¡Una pila usada tirada en la basura puede contaminar mucha agua! Siempre tíralas en lugares especiales.",
+      "Los murciélagos, aunque a veces dan miedo, ¡son muy importantes! Algunos ayudan a polinizar plantas y otros comen mosquitos.",
+      "Cuando juegues al aire libre, no dejes tu basura. ¡Llévala contigo hasta que encuentres un bote!"
+    ],
+    teens: [
+      "Solo el 9% del plástico producido en todo el mundo se recicla correctamente. ¡Hay mucho por hacer!",
+      "El cambio climático puede causar fenómenos meteorológicos extremos y la pérdida de hábitats naturales.",
+      "La energía solar podría cubrir hasta el 30% del consumo mundial en el futuro si invertimos en ella.",
+      "Las ciudades verdes reducen la contaminación y mejoran la calidad de vida de las personas.",
+      "Un teléfono móvil tarda unos 75 kg de materias primas en producirse. ¡Piensa antes de cambiarlo!",
+      "El 'fast fashion' o moda rápida es una gran fuente de contaminación; opta por ropa sostenible.",
+      "La agricultura sostenible puede reducir las emisiones de gases de efecto invernadero en más del 20%.",
+      "El uso excesivo de datos móviles y el streaming de video también tienen una huella de carbono debido a la energía de los servidores.",
+      "Participar en programas de voluntariado ambiental es una excelente forma de contribuir y conocer gente nueva.",
+      "La educación ambiental es clave para generar un cambio de mentalidad y un futuro más sostenible."
+    ],
+    adults: [
+      "Los árboles pueden almacenar hasta 22 kg de CO2 por año, son nuestros aliados contra el cambio climático.",
+      "El desperdicio alimentario representa hasta un 30% de la producción mundial de alimentos, ¡un enorme desafío!",
+      "Las energías renovables crecieron un 45% en el último lustro a nivel global, demostrando su potencial.",
+      "Las políticas verdes pueden generar millones de empleos en sectores sostenibles y de energía limpia.",
+      "La producción de carne es una de las mayores fuentes de emisiones de gases de efecto invernadero.",
+      "El 'efecto rebote' en eficiencia energética se refiere a que el ahorro se compensa con un mayor consumo general.",
+      "La economía circular busca que los recursos se mantengan en uso el mayor tiempo posible, reduciendo residuos y la necesidad de nuevas extracciones.",
+      "La acidificación de los océanos, causada por la absorción de CO2, amenaza la vida marina, especialmente a los organismos con conchas y esqueletos.",
+      "Optar por productos de segunda mano o reparar objetos en lugar de comprar nuevos reduce significativamente la huella ecológica.",
+      "El transporte marítimo es una de las mayores fuentes de contaminación del aire y emisiones de carbono a nivel global."
+    ]
+  };
+
+  function setupTipBox(id, category) {
+    const tipBox = document.getElementById(id);
+    if (!tipBox) return;
+    let idx = 0;
+    tipBox.textContent = `¿Sabías qué? ${tipsByCategory[category][idx]}`;
+    function cycleTip() {
+      idx = (idx + 1) % tipsByCategory[category].length;
+      tipBox.textContent = `¿Sabías qué? ${tipsByCategory[category][idx]}`;
+    }
+    tipBox.addEventListener('click', cycleTip);
+    tipBox.addEventListener('keydown', e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        cycleTip();
+      }
+    });
+  }
+
+  setupTipBox('tip-box', 'welcome');
+  setupTipBox('tip-box-kids', 'kids');
+  setupTipBox('tip-box-teens', 'teens');
+  setupTipBox('tip-box-adults', 'adults');
+
+  navButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      const target = button.dataset.section;
+      showSection(target);
+    });
+  });
+
+  ageBtns.forEach(button => {
+    button.addEventListener('click', () => {
+      currentAgeCategory = button.dataset.age;
+      navButtons.forEach(btn => btn.classList.remove('active'));
+      const navToActivate = Array.from(navButtons).find(b => b.dataset.section === currentAgeCategory);
+      if(navToActivate) navToActivate.classList.add('active');
+      showSection(currentAgeCategory);
+      updateAgeSelectionAria(currentAgeCategory);
+    });
+  });
+
+  function updateAgeSelectionAria(activeAge) {
+    ageBtns.forEach(btn => {
+      btn.setAttribute('aria-checked', btn.dataset.age === activeAge ? 'true' : 'false');
+    });
+  }
+
+  function showSection(id) {
+    sections.forEach(section => {
+      section.classList.toggle('active', section.id === id);
+    });
+    if(id === 'quiz') resetQuiz(); // Reset quiz every time it's navigated to
+  }
+
+  const quizData = {
+    level1: [
+      {
+        question: "¿Cuál de estos NO es un color para reciclar en la mayoría de lugares?",
+        options: ["Verde para vidrio", "Amarillo para plásticos", "Azul para papel y cartón", "Rojo para restos de comida"],
+        answer: 3
+      },
+      {
+        question: "¿Qué gas es el más relacionado con el efecto invernadero causado por humanos?",
+        options: ["Oxígeno", "Nitrógeno", "Dióxido de carbono (CO2)", "Argón"],
+        answer: 2
+      },
+      {
+        question: "¿Qué energía renovable utiliza el sol para generar electricidad?",
+        options: ["Energía eólica", "Energía solar", "Energía hidráulica", "Energía geotérmica"],
+        answer: 1
+      },
+      {
+        question: "¿Cuál de estas acciones ayuda a ahorrar agua en casa?",
+        options: ["Dejar el grifo abierto al cepillarse", "Tomar duchas largas", "Cerrar el grifo mientras te enjabonas", "Lavar el coche con manguera"],
+        answer: 2
+      },
+      {
+        question: "¿Qué es la biodiversidad?",
+        options: ["La cantidad de edificios en una ciudad", "La variedad de vida en la Tierra", "La cantidad de basura en un vertedero", "El estudio de las rocas"],
+        answer: 1
+      },
+      {
+        question: "¿Qué significa 'reutilizar' en el contexto ambiental?",
+        options: ["Tirar algo después de usarlo una vez", "Usar un objeto varias veces antes de desecharlo", "Convertir un objeto en algo nuevo", "Comprar solo cosas nuevas"],
+        answer: 1
+      },
+      {
+        question: "¿Qué tipo de energía es la producida por el viento?",
+        options: ["Solar", "Hidráulica", "Geotérmica", "Eólica"],
+        answer: 3
+      },
+      {
+        question: "¿Cuál es la principal fuente de oxígeno en la Tierra?",
+        options: ["Los volcanes", "Los bosques y océanos", "Las ciudades", "Los animales"],
+        answer: 1
+      },
+      {
+        question: "¿Qué es un ecosistema?",
+        options: ["Una gran ciudad", "Un grupo de montañas", "Un conjunto de seres vivos y su entorno natural", "Un tipo de animal"],
+        answer: 2
+      },
+      {
+        question: "¿Qué acción sencilla ayuda a reducir la contaminación del aire al ir a la escuela?",
+        options: ["Ir en coche", "Ir en autobús", "Ir caminando o en bicicleta", "Usar patineta eléctrica"],
+        answer: 2
+      },
+      // New questions for Level 1 - Total 25 questions
+      {
+          question: "¿Qué animal es un importante polinizador de flores y alimentos?",
+          options: ["El oso", "La abeja", "El tiburón", "El elefante"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es mejor para el medio ambiente, una bolsa de plástico o una bolsa de tela reutilizable?",
+          options: ["Bolsa de plástico", "Bolsa de papel", "Bolsa de tela reutilizable", "Cualquiera es igual"],
+          answer: 2
+      },
+      {
+          question: "¿Qué debemos hacer con una bombilla cuando ya no funciona?",
+          options: ["Tirarla a la basura normal", "Romperla", "Llevarla a un punto de reciclaje especial", "Guardarla en un cajón"],
+          answer: 2
+      },
+      {
+          question: "¿Qué ayuda a que las plantas crezcan más rápido y saludables?",
+          options: ["Pintura", "Comida chatarra", "Abono orgánico (compost)", "Pilares de metal"],
+          answer: 2
+      },
+      {
+          question: "¿Por qué es malo tirar basura al río o al mar?",
+          options: ["Porque no se ve bien", "Porque daña a los peces y otros animales", "Porque se la lleva la corriente", "Porque hace ruido"],
+          answer: 1
+      },
+      {
+          question: "¿Qué tipo de luz consume menos energía?",
+          options: ["Bombillas incandescentes", "Bombillas LED", "Velas", "Focos halógenos"],
+          answer: 1
+      },
+      {
+          question: "¿Qué se celebra el Día de la Tierra?",
+          options: ["El día de tu cumpleaños", "Un día para jugar", "Un día para recordar que debemos cuidar el planeta", "El día de la comida"],
+          answer: 2
+      },
+      {
+          question: "¿Qué es un recurso natural?",
+          options: ["Un juguete nuevo", "Algo que la naturaleza nos da y usamos", "Un edificio alto", "Una canción"],
+          answer: 1
+      },
+      {
+          question: "¿Qué sucede si cortamos muchos árboles sin plantar nuevos?",
+          options: ["El aire se vuelve más limpio", "Los animales pierden sus hogares", "Las frutas crecen más rápido", "No pasa nada"],
+          answer: 1
+      },
+      {
+          question: "¿Por qué es importante no desperdiciar la comida?",
+          options: ["Porque es aburrido comer lo mismo", "Porque se desperdician recursos para producirla", "Porque no te gustará", "Porque te regañarán"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es un panel solar?",
+          options: ["Un tablero para pintar", "Un objeto que convierte la luz del sol en energía", "Una ventana grande", "Una mesa de madera"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es el aire puro?",
+          options: ["Aire con mucho humo", "Aire que no tiene contaminación y es bueno para respirar", "Aire caliente", "Aire con mucho polvo"],
+          answer: 1
+      },
+      {
+          question: "¿Cuál de estos es un material reciclable?",
+          options: ["Un pañal sucio", "Una manzana podrida", "Una botella de vidrio", "Un chicle usado"],
+          answer: 2
+      },
+      {
+          question: "¿Qué es una sequía?",
+          options: ["Cuando llueve mucho", "Cuando hace mucho frío", "Cuando no llueve por mucho tiempo y la tierra se seca", "Cuando hay mucha nieve"],
+          answer: 2
+      },
+      {
+          question: "¿Por qué es importante proteger a las tortugas marinas?",
+          options: ["Para que te den suerte", "Porque ayudan a mantener el equilibrio en los océanos", "Porque son bonitas", "Para que naden rápido"],
+          answer: 1
+      }
+    ],
+    level2: [
+      {
+        question: "¿Qué fenómeno se produce cuando hay un exceso de nutrientes en el agua, causando crecimiento de algas y falta de oxígeno?",
+        options: ["Desertificación", "Eutrofización", "Acidificación", "Deforestación"],
+        answer: 1
+      },
+      {
+        question: "¿Qué son los 'microplásticos'?",
+        options: ["Plásticos muy grandes para reciclar", "Pequeñas partículas plásticas que contaminan océanos", "Un tipo de plástico biodegradable", "Envases de plástico para microondas"],
+        answer: 1
+      },
+      {
+        question: "¿Cuál es una consecuencia directa del deshielo de los glaciares debido al cambio climático?",
+        options: ["Aumento de las lluvias", "Disminución del nivel del mar", "Aumento del nivel del mar", "Climas más fríos"],
+        answer: 2
+      },
+      {
+        question: "¿Qué tipo de contaminación es el exceso de sonido que daña la salud?",
+        options: ["Contaminación lumínica", "Contaminación visual", "Contaminación acústica", "Contaminación térmica"],
+        answer: 2
+      },
+      {
+        question: "¿Cuál es el propósito principal de una 'área protegida'?",
+        options: ["Construir viviendas", "Conservar la naturaleza y la biodiversidad", "Cultivar alimentos", "Extraer recursos naturales"],
+        answer: 1
+      },
+      {
+        question: "¿Qué impacto tiene la deforestación en el cambio climático?",
+        options: ["Ayuda a absorber más CO2", "No tiene ningún impacto", "Libera CO2 a la atmósfera y reduce la absorción futura", "Causa más lluvia"],
+        answer: 2
+      },
+      {
+        question: "¿Qué porcentaje de la superficie terrestre está cubierta por océanos?",
+        options: ["50%", "71%", "30%", "90%"],
+        answer: 1
+      },
+      {
+        question: "¿Cuál de los siguientes es un recurso natural no renovable?",
+        options: ["Energía solar", "Viento", "Carbón", "Agua"],
+        answer: 2
+      },
+      {
+        question: "¿Qué es el 'efecto invernadero'?",
+        options: ["Un fenómeno que enfría la Tierra", "Un fenómeno natural que mantiene la Tierra caliente", "Un tipo de edificio para plantas", "Una técnica de agricultura"],
+        answer: 1
+      },
+      {
+        question: "¿Qué acción contribuye a la desertificación?",
+        options: ["Plantación de árboles", "Reforestación", "Pastoreo excesivo", "Uso eficiente del agua"],
+        answer: 2
+      },
+      // New questions for Level 2 - Total 25 questions
+      {
+          question: "¿Cuál de estas es una fuente de energía renovable?",
+          options: ["Petróleo", "Gas natural", "Energía eólica", "Carbón"],
+          answer: 2
+      },
+      {
+          question: "¿Qué significa 'Huella de Carbono'?",
+          options: ["La marca que dejan tus zapatos", "La cantidad de gases de efecto invernadero que produces", "El tamaño de tu huerto", "La cantidad de agua que bebes"],
+          answer: 1
+      },
+      {
+          question: "¿Qué animal es un indicador clave de la salud de los arrecifes de coral?",
+          options: ["Pez payaso", "Tiburón", "Coral", "Estrella de mar"],
+          answer: 2
+      },
+      {
+          question: "¿Qué se puede hacer con las botellas de plástico que ya no usamos?",
+          options: ["Quemarlas", "Tirarlas al río", "Reciclarlas en un contenedor amarillo", "Enterrarlas en el jardín"],
+          answer: 2
+      },
+      {
+          question: "¿Qué es el consumo fantasma o vampiro de energía?",
+          options: ["La energía que gastas viendo películas de terror", "La energía que consumen los aparatos electrónicos apagados pero enchufados", "La energía que gastas en la noche", "La energía de los electrodomésticos viejos"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es un ecosistema de agua dulce?",
+          options: ["El océano Atlántico", "Un lago o un río", "El desierto", "Un volcán"],
+          answer: 1
+      },
+      {
+          question: "¿Cuál es un beneficio de usar transporte público o bicicleta en lugar de coche?",
+          options: ["Llegar más rápido", "Evitar el tráfico", "Reducir la contaminación del aire", "Escuchar música"],
+          answer: 2
+      },
+      {
+          question: "¿Qué es un recurso natural no renovable?",
+          options: ["El sol", "El viento", "El petróleo", "El agua"],
+          answer: 2
+      },
+      {
+          question: "¿Qué proceso ayuda a convertir los residuos orgánicos en abono para las plantas?",
+          options: ["Reciclaje", "Compostaje", "Incineración", "Vertedero"],
+          answer: 1
+      },
+      {
+          question: "¿Cuál es la principal causa de la deforestación a nivel mundial?",
+          options: ["El calentamiento global", "La construcción de carreteras", "La agricultura y ganadería", "La tala de árboles para madera"],
+          answer: 2
+      },
+      {
+          question: "¿Qué es la 'zona de sacrificio' en términos ambientales?",
+          options: ["Un área donde se protegen los animales", "Una zona geográfica que sufre daños ambientales severos por la actividad industrial", "Un lugar donde se practica la agricultura ecológica", "Un parque nacional"],
+          answer: 1
+      },
+      {
+          question: "¿Qué elemento es fundamental para la supervivencia de casi toda la vida en la Tierra?",
+          options: ["Oro", "Plástico", "Agua", "Dióxido de carbono"],
+          answer: 2
+      },
+      {
+          question: "¿Cuál de las siguientes acciones reduce la contaminación del agua?",
+          options: ["Tirar aceite de cocina por el desagüe", "Usar productos de limpieza con muchos químicos", "No tirar toallitas húmedas al inodoro", "Lavar el coche en la calle con jabón"],
+          answer: 2
+      },
+      {
+          question: "¿Qué significa 'reciclar'?",
+          options: ["Tirar algo que ya no sirve", "Reutilizar un objeto", "Convertir un material usado en uno nuevo", "Comprar solo productos nuevos"],
+          answer: 2
+      },
+      {
+          question: "¿Cuál es un ejemplo de energía renovable?",
+          options: ["Carbón", "Viento", "Gas natural", "Uranio"],
+          answer: 1
+      }
+    ],
+    level3: [
+      {
+        question: "¿Qué es la 'economía circular'?",
+        options: [
+          "Un sistema económico basado en el crecimiento ilimitado",
+          "Un modelo que busca reducir residuos y mantener recursos en uso el mayor tiempo posible",
+          "Una economía que solo usa recursos vírgenes",
+          "Un sistema donde los productos se desechan rápidamente"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué son los 'servicios ecosistémicos'?",
+        options: [
+          "Servicios de entrega a domicilio para productos ecológicos",
+          "Beneficios que la naturaleza provee a los seres humanos (polinización, agua limpia, etc.)",
+          "Servicios de mantenimiento de equipos eléctricos",
+          "Actividades de limpieza en parques"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Cuál es la función principal del 'Protocolo de Kioto' y el 'Acuerdo de París'?",
+        options: [
+          "Regular el comercio internacional",
+          "Fomentar el turismo sostenible",
+          "Establecer límites de emisión para combatir el cambio climático",
+          "Proteger especies en peligro de extinción"
+        ],
+        answer: 2
+      },
+      {
+        question: "¿Qué se entiende por 'justicia climática'?",
+        options: [
+          "Que todos deben pagar los mismos impuestos ambientales",
+          "Que los impactos del cambio climático afectan desproporcionadamente a las poblaciones más vulnerables",
+          "Que los países ricos deben resolver el cambio climático por sí solos",
+          "Que los animales tienen derechos climáticos"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué son los 'sumideros de carbono'?",
+        options: [
+          "Lugares donde se quema carbono",
+          "Sistemas naturales o artificiales que absorben más carbono del que emiten (ej. bosques, océanos)",
+          "Contaminantes que dañan el aire",
+          "Máquinas que producen CO2"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Cuál de los siguientes es un 'Compuesto Orgánico Volátil (COV)'?",
+        options: [
+          "Agua (H2O)",
+          "Dióxido de Carbono (CO2)",
+          "Metano (CH4)",
+          "Formaldehído (un componente común en pinturas y adhesivos)"
+        ],
+        answer: 3
+      },
+      {
+        question: "¿Qué es la lixiviación en el contexto de la contaminación del suelo?",
+        options: [
+          "La evaporación de agua del suelo",
+          "El movimiento de nutrientes hacia la superficie",
+          "El arrastre de sustancias contaminantes a través del suelo por el agua",
+          "La acumulación de aire en el suelo"
+        ],
+        answer: 2
+      },
+      {
+        question: "¿Qué tipo de agricultura se enfoca en minimizar el uso de pesticidas y fertilizantes químicos?",
+        options: ["Agricultura intensiva", "Agricultura de monocultivo", "Agricultura orgánica", "Agricultura de subsistencia"],
+        answer: 2
+      },
+      {
+        question: "¿Qué es la 'resiliencia climática'?",
+        options: [
+          "La capacidad de un sistema para resistir y recuperarse de los impactos del cambio climático",
+          "La velocidad a la que se derriten los glaciares",
+          "La cantidad de gases de efecto invernadero en la atmósfera",
+          "La tendencia de las temperaturas a aumentar"
+        ],
+        answer: 0
+      },
+      {
+        question: "¿Qué es el Índice de Calidad del Aire (ICA)?",
+        options: [
+          "Un índice que mide la temperatura ambiental",
+          "Un sistema que reporta la calidad del aire y los niveles de contaminación",
+          "Un índice que mide la calidad del agua",
+          "Un sistema que reporta la cantidad de lluvia"
+        ],
+        answer: 1
+      },
+      // New questions for Level 3 - Total 25 questions
+      {
+          question: "¿Qué es la 'capacidad de carga' de un ecosistema?",
+          options: ["El peso máximo que puede soportar una especie", "El número máximo de individuos de una especie que un ecosistema puede soportar indefinidamente", "La cantidad de agua que puede almacenar un lago", "La cantidad de energía que consume un ecosistema"],
+          answer: 1
+      },
+      {
+          question: "¿Cuál es el principal problema ambiental asociado con la minería a cielo abierto?",
+          options: ["Generación de electricidad", "Contaminación del agua y destrucción del paisaje", "Producción de alimentos", "Desarrollo de nuevas tecnologías"],
+          answer: 1
+      },
+      {
+          question: "¿Qué son los 'bonos de carbono'?",
+          options: ["Un tipo de inversión en empresas de carbón", "Certificados negociables que representan una tonelada de CO2 que ha sido reducida o absorbida", "Bonos para comprar carbón mineral", "Inversiones en la industria del petróleo"],
+          answer: 1
+      },
+      {
+          question: "¿Cuál de estos es un 'contaminante orgánico persistente (COP)'?",
+          options: ["Agua", "DDT (un pesticida)", "Sal común", "Azúcar"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es la 'biomagnificación'?",
+          options: ["El aumento del tamaño de los organismos vivos", "La acumulación de toxinas en la cadena alimentaria a medida que se asciende de nivel trófico", "La producción de biomasa por las plantas", "La disminución de la población de una especie"],
+          answer: 1
+      },
+      {
+          question: "¿Cuál es la principal diferencia entre la energía geotérmica y la energía eólica?",
+          options: ["La geotérmica usa el calor de la Tierra; la eólica usa el viento", "Una es renovable y la otra no", "Ambas usan el sol", "Una es para casas y la otra para autos"],
+          answer: 0
+      },
+      {
+          question: "¿Qué implica la 'soberanía energética'?",
+          options: ["Depender totalmente de energías importadas", "La capacidad de un país de controlar sus fuentes de energía y políticas energéticas", "Tener acceso a energía ilimitada", "No usar energía en absoluto"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es un 'ecotono'?",
+          options: ["Un tipo de sonido ecológico", "Una zona de transición entre dos ecosistemas diferentes", "Un ecosistema muy pequeño", "Un tipo de mineral"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es el 'blanqueamiento de coral'?",
+          options: ["Cuando los corales se vuelven blancos naturalmente", "Un proceso en el que los corales expulsan las algas simbióticas, causando que se blanqueen y mueran", "Una técnica para limpiar arrecifes", "El crecimiento de corales nuevos"],
+          answer: 1
+      },
+      {
+          question: "¿Qué ley internacional busca proteger las especies de flora y fauna amenazadas por el comercio internacional?",
+          options: ["Protocolo de Montreal", "Convenio de Ramsar", "CITES (Convención sobre el Comercio Internacional de Especies Amenazadas de Fauna y Flora Silvestres)", "Acuerdo de Kioto"],
+          answer: 2
+      },
+      {
+          question: "¿Qué se entiende por 'externalidades ambientales'?",
+          options: ["Impactos ambientales positivos de una empresa", "Costos o beneficios ambientales de una actividad económica que no se reflejan en el precio de mercado", "Programas de educación ambiental", "Impuestos sobre productos ecológicos"],
+          answer: 1
+      },
+      {
+          question: "¿Cuál de los siguientes no es un pilar del desarrollo sostenible?",
+          options: ["Ambiental", "Social", "Cultural", "Económico"],
+          answer: 2
+      },
+      {
+          question: "¿Qué tipo de contaminación es la proliferación excesiva de algas en cuerpos de agua?",
+          options: ["Contaminación acústica", "Contaminación térmica", "Eutrofización", "Contaminación lumínica"],
+          answer: 2
+      },
+      {
+          question: "¿Qué es una 'especie invasora'?",
+          options: ["Una especie que vive en muchos lugares", "Una especie introducida en un ecosistema que causa daño ambiental, económico o a la salud humana", "Una especie que se reproduce muy rápido", "Una especie que migra mucho"],
+          answer: 1
+      },
+      {
+          question: "¿Qué es un 'desastre natural'?",
+          options: ["Un experimento científico que sale mal", "Un evento extremo causado por procesos naturales de la Tierra", "Un accidente en una fábrica", "Una enfermedad que se propaga rápidamente"],
+          answer: 1
+      }
+    ],
+    level4: [
+      {
+        question: "¿Qué concepto describe la cantidad de agua dulce utilizada para producir bienes y servicios?",
+        options: ["Huella hídrica", "Huella de carbono", "Huella ecológica", "Huella energética"],
+        answer: 0
+      },
+      {
+        question: "¿Cuál de los siguientes es un ejemplo de 'bioremediación'?",
+        options: [
+          "La construcción de una planta de tratamiento de aguas residuales",
+          "El uso de microorganismos para limpiar derrames de petróleo",
+          "La quema de residuos para generar energía",
+          "La creación de una zona protegida para especies en peligro"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué es la 'acidificación del océano'?",
+        options: [
+          "El aumento del nivel del mar",
+          "La disminución del pH del océano debido a la absorción de CO2 de la atmósfera",
+          "La contaminación por plásticos en el océano",
+          "El aumento de la temperatura del agua del océano"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué son los 'Objetivos de Desarrollo Sostenible (ODS)' de la ONU?",
+        options: [
+          "Un conjunto de leyes para proteger la vida silvestre",
+          "17 metas globales para lograr un futuro más sostenible para todos",
+          "Un programa de reforestación mundial",
+          "Normas para la construcción de edificios ecológicos"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Cuál es el principal gas emitido por los vertederos que contribuye al efecto invernadero?",
+        options: ["Dióxido de carbono (CO2)", "Metano (CH4)", "Óxido nitroso (N2O)", "Vapor de agua (H2O)"],
+        answer: 1
+      },
+      {
+        question: "¿Qué es un 'punto de inflexión climático'?",
+        options: [
+          "Un momento en el que el clima se estabiliza",
+          "Un umbral crítico en el sistema climático que, si se supera, conduce a cambios irreversibles y a menudo abruptos",
+          "El punto más frío del año",
+          "Una medida de la eficiencia energética"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué implica la 'soberanía alimentaria'?",
+        options: [
+          "Depender de importaciones de alimentos",
+          "El derecho de los pueblos a definir sus propias políticas y estrategias de alimentación y agricultura",
+          "La producción de alimentos a gran escala para la exportación",
+          "El control de la cadena alimentaria por grandes corporaciones"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Cuál de estas es una medida de 'adaptación al cambio climático'?",
+        options: [
+          "Reducir las emisiones de gases de efecto invernadero",
+          "Construir diques para protegerse del aumento del nivel del mar",
+          "Cambiar de combustibles fósiles a energías renovables",
+          "Capturar carbono de la atmósfera"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué es la 'carga tóxica' en el cuerpo humano?",
+        options: [
+          "El peso de los alimentos que comemos",
+          "La acumulación de sustancias químicas tóxicas en el organismo a lo largo del tiempo",
+          "La cantidad de ejercicio que una persona puede hacer",
+          "El nivel de estrés diario"
+        ],
+        answer: 1
+      },
+      {
+        question: "¿Qué significa el término 'Net Zero' o 'Cero Neto' en emisiones de carbono?",
+        options: [
+          "Emitir cero carbono en absoluto",
+          "Equilibrar las emisiones de gases de efecto invernadero con su eliminación de la atmósfera",
+          "Reducir las emisiones de carbono a la mitad",
+          "Aumentar las emisiones de carbono sin consecuencias"
+        ],
+        answer: 1
+      },
+      // New questions for Level 4 - Total 25 questions
+      {
+          question: "¿Qué es el 'índice de vegetación de diferencia normalizada (NDVI)' y para qué se usa?",
+          options: [
+              "Una medida de la contaminación del aire",
+              "Un indicador de la densidad y salud de la vegetación, utilizado para monitorear la deforestación y la desertificación",
+              "Un tipo de análisis de suelo",
+              "Una forma de medir la temperatura de los océanos"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Cuál es la diferencia entre 'mitigación' y 'adaptación' al cambio climático?",
+          options: [
+              "Son lo mismo",
+              "Mitigación reduce las causas (emisiones), adaptación gestiona los impactos existentes o futuros",
+              "Mitigación es para países ricos, adaptación para países pobres",
+              "Una es a corto plazo y la otra a largo plazo"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué es un 'ecopunto'?",
+          options: ["Un lugar para acampar", "Un centro de recolección selectiva de residuos especiales o voluminosos", "Un punto de vista panorámico en la naturaleza", "Un lugar para comprar productos orgánicos"],
+          answer: 1
+      },
+      {
+          question: "¿Qué significan las siglas 'IPCC'?",
+          options: [
+              "Instituto para la Protección de la Capa de Ozono",
+              "Panel Intergubernamental de Expertos sobre el Cambio Climático",
+              "Iniciativa para la Protección de la Costa",
+              "Programa Internacional de Conservación de la Tierra"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué tipo de energía renovable es la biomasa?",
+          options: [
+              "Energía del sol",
+              "Energía generada a partir de materia orgánica (residuos agrícolas, forestales, etc.)",
+              "Energía del viento",
+              "Energía del calor de la Tierra"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué es la 'geoingeniería climática'?",
+          options: [
+              "El estudio de la geología del clima",
+              "Un conjunto de técnicas propuestas para intervenir a gran escala el sistema climático para reducir el calentamiento global",
+              "La ingeniería de edificios sostenibles",
+              "El diseño de ciudades verdes"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Cuál de estos es un 'contaminante atmosférico primario'?",
+          options: ["Ozono troposférico", "Lluvia ácida", "Óxidos de nitrógeno (NOx) emitidos directamente por fuentes", "Material particulado secundario"],
+          answer: 2
+      },
+      {
+          question: "¿Qué es el 'síndrome de la rana hervida' en el contexto ambiental?",
+          options: [
+              "Un cuento popular sobre ranas",
+              "La idea de que las personas no reaccionan a cambios ambientales graduales hasta que es demasiado tarde",
+              "Una enfermedad que afecta a las ranas",
+              "Un método para cocinar ranas de forma sostenible"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué es el 'capital natural'?",
+          options: [
+              "Dinero invertido en empresas ecológicas",
+              "Los recursos naturales del planeta que proporcionan bienes y servicios a la humanidad",
+              "El dinero de los países ricos",
+              "Los parques nacionales"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué es la 'servidumbre ecológica'?",
+          options: [
+              "Un contrato de trabajo en el campo",
+              "Un gravamen o limitación impuesta a la propiedad privada para proteger un recurso natural o ambiental",
+              "El servicio que prestan los ecosistemas",
+              "La obligación de reciclar"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué papel juegan los océanos en la regulación del clima global?",
+          options: [
+              "No tienen ningún papel",
+              "Actúan como sumideros de calor y carbono, distribuyendo calor y absorbiendo CO2",
+              "Solo producen oxígeno",
+              "Solo causan huracanes"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué es la 'desalinización' del agua?",
+          options: [
+              "El proceso de añadir sal al agua",
+              "El proceso de eliminar la sal y los minerales del agua de mar para hacerla potable",
+              "La evaporación del agua de los océanos",
+              "La limpieza de ríos"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué se conoce como 'contaminación difusa'?",
+          options: [
+              "Contaminación que solo afecta a un área específica",
+              "Contaminación que proviene de fuentes no puntuales y dispersas, como la escorrentía agrícola o urbana",
+              "Contaminación que solo se ve de noche",
+              "Contaminación que se dispersa rápidamente en la atmósfera"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué es un 'bioindicador'?",
+          options: [
+              "Un tipo de combustible",
+              "Una especie o grupo de especies cuya presencia, abundancia o salud sirve como indicador de la calidad ambiental de un ecosistema",
+              "Un dispositivo para medir la contaminación",
+              "Un tipo de abono orgánico"
+          ],
+          answer: 1
+      },
+      {
+          question: "¿Qué es el 'enverdecimiento urbano'?",
+          options: [
+              "Pintar los edificios de verde",
+              "La incorporación de espacios verdes, árboles y vegetación en las ciudades para mejorar el medio ambiente y la calidad de vida",
+              "La prohibición de coches en las ciudades",
+              "La construcción de más edificios"
+          ],
+          answer: 1
+      }
+    ]
+  };
+
+  let currentQuestionIndex = 0;
+  let currentQuizLevel = null;
+  let timerInterval;
+  const quizTimerDisplay = document.getElementById('quiz-timer');
+  const timerDuration = 20; // seconds for all levels
+
+  const questionText = document.getElementById('question-text');
+  const quizOptions = document.getElementById('quiz-options');
+  const submitBtn = document.getElementById('submit-btn');
+  const quizResult = document.getElementById('quiz-result');
+  const quizProgressBar = document.getElementById('quiz-progress-bar');
+  const quizLevelButtons = document.querySelectorAll('.quiz-level-btn');
+
+  quizLevelButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      quizLevelButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      currentQuizLevel = `level${button.dataset.level}`;
+      startQuiz(currentQuizLevel);
+    });
+  });
+
+  function startQuiz(level) {
+    currentQuizLevel = level;
+    currentQuestionIndex = 0;
+    quizResult.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-disabled', 'true');
+    submitBtn.style.display = 'block'; // Ensure button is visible
+    quizTimerDisplay.textContent = ''; // Clear timer
+    clearInterval(timerInterval); // Clear any existing timer
+    showQuizQuestion();
+  }
+
+  function showQuizQuestion() {
+    const questions = quizData[currentQuizLevel];
+    if (!questions) {
+      questionText.textContent = "Por favor, selecciona un nivel de quiz para empezar.";
+      quizOptions.innerHTML = '';
+      submitBtn.style.display = 'none';
+      quizProgressBar.style.width = "0%";
+      quizTimerDisplay.textContent = '';
+      clearInterval(timerInterval);
+      return;
+    }
+
+    if (currentQuestionIndex >= questions.length) {
+      questionText.textContent = `¡Felicidades! Terminaste el Nivel ${currentQuizLevel.replace('level','')} 🎉 ¡Eres un campeón ambiental!`;
+      quizOptions.innerHTML = "";
+      submitBtn.style.display = 'none';
+      quizResult.textContent = '';
+      quizProgressBar.style.width = "100%";
+      quizTimerDisplay.textContent = '';
+      clearInterval(timerInterval);
+      return;
+    }
+
+    const currentQ = questions[currentQuestionIndex];
+    questionText.textContent = currentQ.question;
+    quizOptions.innerHTML = '';
+    currentQ.options.forEach((option, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<label tabindex="0"><input type="radio" name="option" value="${index}"><span>${option}</span></label>`;
+      quizOptions.appendChild(li);
+    });
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-disabled', 'true');
+
+    const radios = quizOptions.querySelectorAll('input[name="option"]');
+    radios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        submitBtn.disabled = false;
+        submitBtn.setAttribute('aria-disabled', 'false');
+      });
+    });
+
+    quizResult.textContent = '';
+    updateProgressBar();
+    startTimer();
+  }
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    let timeLeft = timerDuration;
+    quizTimerDisplay.textContent = `Tiempo restante: ${timeLeft}s`;
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      quizTimerDisplay.textContent = `Tiempo restante: ${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        quizResult.style.color = "#c0392b";
+        quizResult.textContent = "¡Tiempo agotado! Inténtalo de nuevo.";
+        currentQuestionIndex++; // Move to next question
+        setTimeout(() => {
+          quizResult.textContent = '';
+          showQuizQuestion();
+        }, 1500); // Wait briefly before showing next question
+      }
+    }, 1000);
+  }
+
+  submitBtn.addEventListener('click', () => {
+    clearInterval(timerInterval); // Stop timer on submission
+    const selectedOption = quizOptions.querySelector('input[name="option"]:checked');
+    const questions = quizData[currentQuizLevel];
+
+    if (!selectedOption) {
+      quizResult.style.color = "#c0392b";
+      quizResult.textContent = "Por favor, selecciona una opción.";
+      startTimer(); // Restart timer if no option selected
+      return;
+    }
+
+    const selectedIndex = parseInt(selectedOption.value, 10);
+
+    if (selectedIndex === questions[currentQuestionIndex].answer) {
+      quizResult.style.color = "#27ae60";
+      quizResult.textContent = "¡Correcto! ¡Excelente respuesta! 😊";
+    } else {
+      quizResult.style.color = "#c0392b";
+      quizResult.textContent = "Incorrecto. La respuesta correcta era: " + questions[currentQuestionIndex].options[questions[currentQuestionIndex].answer] + ".";
+    }
+    currentQuestionIndex++;
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-disabled', 'true');
+
+    updateProgressBar();
+
+    setTimeout(() => {
+      quizResult.textContent = '';
+      showQuizQuestion();
+    }, 2600);
+  });
+
+  function resetQuiz() {
+    clearInterval(timerInterval);
+    currentQuestionIndex = 0;
+    quizResult.textContent = '';
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-disabled', 'true');
+    submitBtn.style.display = 'block';
+    questionText.textContent = 'Selecciona un nivel para jugar.';
+    quizOptions.innerHTML = '';
+    quizProgressBar.style.width = "0%";
+    quizTimerDisplay.textContent = '';
+    quizLevelButtons.forEach(btn => btn.classList.remove('active'));
+    currentQuizLevel = null;
+  }
+
+  function updateProgressBar() {
+    const total = quizData[currentQuizLevel]?.length || 1;
+    const progressPercent = (currentQuestionIndex / total) * 100;
+    quizProgressBar.style.width = progressPercent + "%";
+  }
+
+  /* Chatbot functionality */
+  const chatbotButton = document.getElementById('chatbot-button');
+  const chatbotWindow = document.getElementById('chatbot-window');
+  const chatbotMessages = document.getElementById('chatbot-messages');
+  const chatbotInput = document.getElementById('chatbot-input');
+  const chatbotSend = document.getElementById('chatbot-send');
+
+  const knowledgeBase = [
+    // --- Saludos y preguntas generales ---
+    {
+      patterns: ['hola', 'qué tal', 'saludos', 'que tal', 'hey', 'buenos dias', 'buenas tardes', 'buenas noches', 'como te llamas', 'dime tu nombre'],
+      responses: [
+        '¡Hola! Soy EcoBot 🌿. Estoy aquí para responder tus preguntas sobre educación ambiental. ¿En qué puedo ayudarte hoy?',
+        '¡Saludos! Pregúntame sobre el medio ambiente, reciclaje, cambio climático o cualquier tema ecológico.',
+        'Hola, ¿listo para aprender sobre cómo cuidar nuestro planeta? ¡Pregúntame lo que quieras!',
+        '¡Bienvenido/a! Soy EcoBot, tu amigo virtual para la sostenibilidad. ¿Cómo puedo asistirte?'
+      ]
+    },
+    {
+      patterns: ['quién eres', 'que eres', 'quien sos', 'que sos', 'dime de ti', 'tu nombre', 'acerca de ti'],
+      responses: [
+        'Soy EcoBot, tu asistente virtual para aprender sobre el medio ambiente y la sostenibilidad. ¡Mi misión es ayudarte a ser un guardián del planeta!',
+        'Soy un chatbot educativo diseñado para ayudarte a entender mejor el planeta Tierra y cómo protegerlo.',
+        'Puedes llamarme EcoBot. ¡Mi objetivo es compartir conocimientos ambientales de forma divertida y fácil!',
+        'Soy EcoBot, creado para difundir conocimiento ambiental. ¡Pregúntame lo que quieras saber sobre el planeta!'
+      ]
+    },
+    {
+      patterns: ['gracias', 'muchas gracias', 'te lo agradezco', 'agradecido', 'mil gracias', 'gracias por tu ayuda'],
+      responses: [
+        '¡De nada! Siempre es un placer ayudar a quienes se interesan por el planeta. ¡Sigue así!',
+        'Con gusto. Si tienes más preguntas o necesitas un consejo, aquí estoy para servirte.',
+        'No hay de qué. ¡Tu interés por el medio ambiente ya es un gran paso! Sigue aprendiendo y actuando.',
+        'Para eso estoy, ¡feliz de poder ayudar! Recuerda, cada pregunta te hace más consciente.'
+      ]
+    },
+    {
+      patterns: ['adios', 'chao', 'nos vemos', 'hasta luego', 'bye'],
+      responses: [
+        '¡Adiós! Espero que hayas aprendido mucho y te diviertas explorando la app. ¡Nos vemos pronto!',
+        'Que tengas un día muy eco-amigable. ¡Recuerda, cada pequeña acción cuenta para un gran cambio!',
+        'Hasta la próxima. ¡No olvides aplicar lo aprendido para cuidar nuestro hogar, el planeta Tierra!',
+        '¡Hasta pronto! Sigue cuidando el planeta, es la única casa que tenemos.'
+      ]
+    },
+    {
+      patterns: ['cómo estás', 'como estas', 'qué haces', 'que haces', 'como te sientes'],
+      responses: [
+        '¡Estoy genial! Listo para charlar sobre cualquier tema ambiental que te interese. ¿Qué te gustaría saber hoy?',
+        'Estoy funcionando perfectamente, recopilando y compartiendo información para que todos aprendamos a cuidar el planeta. ¿Y tú, cómo estás?',
+        'Muy bien, ¡con muchas ganas de ayudarte a explorar el mundo de la educación ambiental! ¿Hay algo específico en lo que pueda asistirte?',
+        'Siempre estoy listo para aprender y enseñar sobre el medio ambiente. ¿En qué te puedo servir?'
+      ]
+    },
+    // --- Cómo cuidar el planeta (ampliado) ---
+    {
+      patterns: ['como puedo cuidar mi planeta', 'que puedo hacer para cuidar el planeta', 'consejos para cuidar el ambiente', 'como cuidar el medio ambiente', 'ayudar al planeta', 'salvar el planeta', 'acciones verdes', 'proteger la tierra', 'contribuir al ambiente'],
+      responses: [
+        'Cuidar nuestro planeta es más fácil de lo que crees, ¡y cada acción suma! Algunas ideas clave son: **reducir, reutilizar y reciclar**, ahorrar energía y agua, usar transporte sostenible, y consumir de forma responsable. ¿Quieres saber más sobre alguna de estas?',
+        'Hay muchas formas de ser un superhéroe ambiental. Puedes empezar por **reciclar tu basura**, cerrar la llave del agua mientras no la uses, apagar las luces al salir de una habitación, usar bolsas de tela al comprar, y ¡no tirar basura en la calle! ¿Cuál de estas te parece más fácil de empezar hoy?',
+        'Para cuidar el planeta, te sugiero: **1. Ahorra energía:** Apaga luces y desconecta aparatos. **2. Reduce tu consumo:** Compra solo lo que necesitas. **3. Separa y recicla:** Papel, plástico, vidrio. **4. Ahorra agua:** Duchas cortas, cierra el grifo. **5. Usa transporte sostenible:** Camina, bici, transporte público. **6. Infórmate y educa:** Comparte lo que aprendes. ¡Cada paso es importante!',
+        'Puedes empezar con pequeñas acciones diarias: **clasificar tu basura**, **reducir el uso de plásticos**, **aprovechar la luz natural**, y **participar en iniciativas de limpieza** en tu comunidad. ¡El cambio comienza contigo!'
+      ]
+    },
+    {
+      patterns: ['como puedo cuidar el planeta en casa', 'cuidar ambiente en casa', 'acciones ecologicas en casa', 'ser mas ecologico en casa', 'consejos para el hogar'],
+      responses: [
+        'En casa puedes hacer mucho: **ahorra agua** (duchas cortas, cierra grifos), **ahorra energía** (apaga luces, desconecta electrónicos, usa bombillas LED), **reduce tus residuos** (evita plásticos de un solo uso, compra a granel), **recicla** (separa papel, plástico, vidrio, metal), y **composta** tus restos orgánicos si puedes.',
+        'Transforma tu casa en un hogar eco-amigable: reduce el consumo de agua, apaga luces y desconecta aparatos cuando no los uses, separa tu basura para reciclar, y considera usar productos de limpieza ecológicos. ¡Pequeños cambios hacen una gran diferencia!'
+      ]
+    },
+    {
+      patterns: ['como puedo cuidar el planeta en la escuela', 'cuidar ambiente en colegio', 'acciones ecologicas escuela', 'escuela verde', 'educacion escolar ambiente'],
+      responses: [
+        '¡En la escuela puedes ser un gran ejemplo! **Usa papel reciclado** y recicla tus cuadernos viejos, **apaga las luces** al salir del aula, lleva tu propia **botella de agua reutilizable** y tupper para el almuerzo para evitar desechables. Anima a tus compañeros y maestros a reciclar y a ahorrar recursos.',
+        'Para cuidar el planeta en la escuela, puedes: **1. No desperdicies papel.** **2. Apaga computadoras y luces.** **3. Usa recipientes reutilizables.** **4. Recicla latas, botellas y papel.** **5. Organiza o únete a un club ecológico.** ¡Tu ejemplo puede inspirar a muchos!'
+      ]
+    },
+    {
+      patterns: ['como puedo cuidar el planeta en el trabajo', 'cuidar ambiente oficina', 'acciones ecologicas trabajo', 'oficina sostenible', 'ser ecologico en la oficina'],
+      responses: [
+        'En tu lugar de trabajo también puedes marcar la diferencia. **Reduce la impresión de documentos** y usa papel reciclado, **apaga las luces** y monitores al finalizar el día, **lleva tu propia taza** o termo para café/agua y participa en las iniciativas de reciclaje de la oficina. ¡Cada acción suma!',
+        'Promueve un ambiente de trabajo más verde: optimiza el uso de la energía, fomenta el reciclaje adecuado de materiales, y si es posible, sugiere políticas de teletrabajo o transporte compartido para reducir la huella de carbono.'
+      ]
+    },
+    {
+      patterns: ['que es el consumo responsable', 'consumo sostenible', 'compras inteligentes', 'comprar ecologico'],
+      responses: [
+        'El **consumo responsable** es elegir productos y servicios que minimicen el impacto negativo en el medio ambiente y la sociedad. Implica considerar el origen, la producción, el uso y el desecho de lo que compramos.',
+        'Se trata de pensar: ¿Realmente lo necesito? ¿Es sostenible su producción? ¿Puedo reutilizarlo o reciclarlo? Es comprar de forma consciente, priorizando lo local, ecológico y ético.'
+      ]
+    },
+    {
+      patterns: ['como puedo ayudar a los animales', 'proteger animales', 'proteger fauna', 'cuidar fauna', 'salvar animales', 'animales en peligro'],
+      responses: [
+        'Para ayudar a los animales, puedes: **proteger sus hábitats**, no comprar productos derivados de especies en peligro, reducir tu huella de carbono para mitigar el cambio climático (que afecta a muchos animales), participar en limpiezas de playas o parques, y apoyar a organizaciones de conservación. ¡Evitar la contaminación también es clave!',
+        'Cada animal cumple un rol importante. No tires basura en la naturaleza, ya que puede dañarles. Si ves un animal herido, busca ayuda profesional. Y recuerda, no compres mascotas exóticas, ya que muchas provienen del tráfico ilegal.'
+      ]
+    },
+    {
+      patterns: ['que hacer con el agua', 'como ahorrar agua', 'cuidar el agua', 'uso eficiente del agua', 'escasez de agua', 'crisis hidrica'],
+      responses: [
+        '¡El agua es vida! Para ahorrarla: toma duchas cortas, cierra el grifo mientras te cepillas los dientes o te enjabonas las manos, repara fugas, usa la lavadora y el lavavajillas solo cuando estén llenos, y riega tus plantas en las horas de menos sol para evitar evaporación. ¡Cada gota cuenta!',
+        'Podemos ser más eficientes con el agua en casa: instala grifos y regaderas de bajo flujo, junta el agua fría de la regadera mientras esperas la caliente para regar plantas, y recolecta agua de lluvia para usos no potables. ¡Tu consumo marca la diferencia!'
+      ]
+    },
+    {
+      patterns: ['como ahorrar energia', 'reducir consumo electrico', 'energia eficiente', 'ahorro de luz', 'consumo fantasma', 'energia en el hogar'],
+      responses: [
+        'Ahorrar energía es clave: apaga las luces al salir de una habitación, desconecta los aparatos electrónicos que no uses (el "consumo vampiro" es real), usa bombillas LED, aprovecha la luz natural y ajusta la temperatura de tu aire acondicionado/calefacción de forma moderada. ¡Tu bolsillo y el planeta te lo agradecerán!',
+        'Considera usar electrodomésticos eficientes energéticamente, sella bien puertas y ventanas para evitar fugas de calor o frío, y si es posible, evalúa la instalación de paneles solares. ¡Pequeños cambios pueden generar grandes ahorros y reducir tu impacto!'
+      ]
+    },
+    {
+      patterns: ['transporte sostenible', 'movilidad verde', 'como moverme sin contaminar', 'transporte ecologico', 'reducir huella de carbono transporte'],
+      responses: [
+        'El **transporte sostenible** implica usar medios de transporte que generen un menor impacto ambiental. Opta por **caminar, usar bicicleta o el transporte público** en lugar del coche. Si necesitas un auto, considera compartirlo o usar vehículos eléctricos.',
+        'Reducir tu huella de carbono con el transporte es fundamental. Cada vez que eliges una opción más verde, ¡estás ayudando al aire que respiramos!'
+      ]
+    },
+    {
+      patterns: ['plantar arboles', 'reforestar', 'importancia arboles', 'bosques y medio ambiente', 'beneficios de los arboles'],
+      responses: [
+        '**Plantar árboles y reforestar** es una de las acciones más efectivas para combatir el cambio climático, ya que los árboles **absorben dióxido de carbono (CO2)** de la atmósfera. Además, ayudan a conservar el suelo, regulan el ciclo del agua y son hogar de miles de especies.',
+        'Los bosques son los pulmones de la Tierra. Al plantar un árbol, estás contribuyendo directamente a un planeta más sano y con más vida.'
+      ]
+    },
+    // --- Contaminación ambiental ---
+    {
+      patterns: ['qué es la contaminación ambiental', 'definición contaminación', 'contaminación ambiental', 'que es contaminacion', 'tipos de contaminacion'],
+      responses: [
+        'La **contaminación ambiental** es la introducción de sustancias o energías en el medio ambiente que tienen efectos adversos para los seres vivos y los ecosistemas. Esto puede ser por gases tóxicos, químicos en el agua, o residuos en el suelo.',
+        'Es la alteración del medio ambiente por agentes físicos, químicos o biológicos que lo hacen inseguro o insalubre, afectando la vida de plantas, animales y humanos.'
+      ]
+    },
+    {
+      patterns: ['tipos de contaminación', 'clases de contaminación', 'principales tipos de contaminación'],
+      responses: [
+        'Los principales **tipos de contaminación** son: del **aire**, del **agua**, del **suelo**, **acústica** (ruido), **lumínica** y **térmica**. Cada una afecta el planeta de diferentes maneras.',
+        'Podemos encontrar contaminación atmosférica, hídrica, terrestre, sonora, visual y por radiación, entre otras. ¡Cada una tiene sus propias causas y soluciones!'
+      ]
+    },
+    {
+      patterns: ['qué causa la contaminación del aire', 'contaminación aire ciudades', 'aire contaminado', 'smog', 'contaminacion atmosferica'],
+      responses: [
+        'La **contaminación del aire** en las ciudades es causada principalmente por las **emisiones de vehículos**, la **actividad industrial**, la **quema de combustibles fósiles** (como carbón y petróleo) y el polvo en suspensión.',
+        'Los gases de escape de coches y fábricas, junto con la quema de basura y el uso de aerosoles, son grandes responsables de la mala calidad del aire que respiramos.'
+      ]
+    },
+    {
+      patterns: ['efectos de la lluvia ácida', 'lluvia ácida efectos', 'que es la lluvia acida'],
+      responses: [
+        'La **lluvia ácida** daña gravemente **bosques y vegetación**, acidifica lagos y ríos afectando la vida acuática, y corroe edificios y monumentos históricos hechos de piedra. Es un problema serio causado por emisiones industriales.',
+        'Sus efectos incluyen la degradación de suelos, la acidificación de cuerpos de agua y el deterioro de infraestructuras, ¡es muy destructiva!'
+      ]
+    },
+    {
+      patterns: ['cómo afecta la contaminación del agua a los ecosistemas acuáticos', 'impacto contaminación agua', 'agua contaminada', 'contaminacion rios', 'contaminacion mares', 'contaminacion hidrica'],
+      responses: [
+        'La **contaminación del agua** disminuye el oxígeno disuelto, provoca toxicidad para los organismos acuáticos, causa **eutrofización** (crecimiento excesivo de algas que agota el oxígeno) y altera las cadenas tróficas marinas y de agua dulce.',
+        'Los desechos industriales y domésticos sin tratar, junto con los fertilizantes agrícolas, envenenan los ríos y mares, afectando gravemente a peces, plantas marinas y a toda la vida acuática.'
+      ]
+    },
+    {
+      patterns: ['qué son los microplásticos', 'microplásticos medio ambiente', 'impacto microplasticos', 'plastico en el oceano'],
+      responses: [
+        'Los **microplásticos** son pequeñas partículas plásticas de menos de 5 mm que provienen de la degradación de plásticos más grandes, productos de cuidado personal (como exfoliantes) y fibras sintéticas de la ropa. ¡Son un problema global persistente!',
+        'Llegan al medio ambiente a través de aguas residuales, escorrentías y dispersión atmosférica. Son ingeridos por la fauna marina y terrestre, ¡entrando incluso en nuestra cadena alimentaria!'
+      ]
+    },
+    {
+      patterns: ['qué es la eutrofización', 'eutrofizacion', 'algas agua', 'contaminacion por nutrientes'],
+      responses: [
+        'La **eutrofización** es el exceso de nutrientes (como nitratos y fosfatos) en cuerpos de agua, lo que provoca un crecimiento desmedido de algas y plantas acuáticas. Esto consume el oxígeno, afectando seriamente a peces y otras formas de vida acuática.',
+        'Es un problema grave causado por la contaminación de fertilizantes agrícolas y aguas residuales. Es como si el agua se "asfixiara" por el exceso de vida vegetal.'
+      ]
+    },
+    {
+      patterns: ['contaminacion suelo', 'como se contamina el suelo', 'suelos contaminados', 'contaminacion tierra'],
+      responses: [
+        'La **contaminación del suelo** ocurre por la acumulación de sustancias químicas tóxicas, como pesticidas, herbicidas, metales pesados o residuos industriales y urbanos. Esto degrada la tierra y afecta la calidad de los alimentos y el agua subterránea.',
+        'Las causas comunes incluyen el uso excesivo de fertilizantes y pesticidas, el vertido de basura sin control, derrames de sustancias peligrosas y la actividad industrial sin regulaciones adecuadas.'
+      ]
+    },
+    {
+      patterns: ['contaminacion acustica', 'ruido impacto', 'exceso de ruido', 'ruido ambiental'],
+      responses: [
+        'La **contaminación acústica** es el exceso de ruido que altera las condiciones normales del ambiente en una determinada zona. Provoca problemas de salud en humanos (estrés, insomnio) y afecta la fauna (desorientación, alteración de patrones de caza).',
+        'El tráfico, la industria, la construcción y los eventos ruidosos son fuentes principales. Controlar el ruido es vital para la calidad de vida y el bienestar de los ecosistemas.'
+      ]
+    },
+    {
+      patterns: ['contaminacion visual', 'impacto visual', 'paisaje contaminado'],
+      responses: [
+        'La **contaminación visual** es el impacto negativo en el paisaje por la presencia de elementos que estropean la estética y armonía del entorno. Ejemplos son vallas publicitarias excesivas, cables eléctricos desordenados, o edificios sin planificación.',
+        'Afecta la percepción de un lugar, la salud visual y puede generar estrés. La planificación urbana y el respeto por el paisaje son importantes para evitarla.'
+      ]
+    },
+    {
+      patterns: ['contaminacion termica', 'cambio temperatura agua', 'calentamiento del agua'],
+      responses: [
+        'La **contaminación térmica** se da cuando la temperatura del agua de un ecosistema aumenta o disminuye, afectando la vida acuática. Esto puede ser por el vertido de agua caliente de industrias o centrales eléctricas.',
+        'Pequeños cambios de temperatura pueden ser letales para especies sensibles y alterar el equilibrio de los ecosistemas acuáticos.'
+      ]
+    },
+    {
+      patterns: ['contaminacion nuclear', 'radiacion', 'desechos nucleares', 'energia nuclear riesgos'],
+      responses: [
+        'La **contaminación nuclear** o radiactiva se refiere a la presencia de material radiactivo en el medio ambiente, causando graves riesgos para la salud humana y los ecosistemas. Puede provenir de accidentes en centrales nucleares o de la gestión inadecuada de desechos radiactivos.',
+        'Es una de las formas de contaminación más peligrosas y duraderas, requiriendo un manejo extremadamente cuidadoso y a largo plazo.'
+      ]
+    },
+    {
+      patterns: ['residuos', 'basura', 'desechos'],
+      responses: [
+        'Los **residuos** son todo aquello que se descarta después de haber sido usado o que ya no tiene utilidad. Su correcta gestión (reducir, reutilizar, reciclar) es clave para proteger el medio ambiente.',
+        'Hay diferentes tipos de residuos: orgánicos, inorgánicos, peligrosos, etc. ¿Te gustaría saber más sobre alguno en particular?'
+      ]
+    },
+    {
+      patterns: ['dioxinas', 'furanos', 'quimicos peligrosos'],
+      responses: [
+        'Las **dioxinas y furanos** son compuestos químicos tóxicos que se forman en procesos de combustión incompletos (como la quema de basura o algunos procesos industriales). Son contaminantes orgánicos persistentes y muy dañinos para la salud y el medio ambiente.',
+        'Son bioacumulables, lo que significa que se acumulan en la cadena alimentaria y pueden tener efectos adversos a largo plazo en la salud humana y animal.'
+      ]
+    },
+    // --- Cambio Climático ---
+    {
+      patterns: ['qué es el cambio climático', 'cambio climático definición', 'crisis climatica', 'calentamiento global', 'que es calentamiento global'],
+      responses: [
+        'El **cambio climático** es una variación global del clima de la Tierra atribuida directa o indirectamente a la actividad humana, que altera la composición de la atmósfera mundial, principalmente por el aumento de gases de efecto invernadero.',
+        'Se refiere a los cambios a largo plazo en las temperaturas y los patrones climáticos globales. Aunque estos cambios pueden ser naturales, desde el siglo XIX las **actividades humanas** han sido el principal motor de este fenómeno.'
+      ]
+    },
+    {
+      patterns: ['principal gas efecto invernadero', 'gas de efecto invernadero más importante', 'gases invernadero', 'gas invernadero', 'co2'],
+      responses: [
+        'El principal gas de efecto invernadero generado por las actividades humanas es el **Dióxido de Carbono (CO2)**. Se libera principalmente por la quema de combustibles fósiles (petróleo, carbón, gas).',
+        'El **CO2** es el que más contribuye al calentamiento global debido a su gran cantidad emitida y su larga persistencia en la atmósfera.'
+      ]
+    },
+    {
+      patterns: ['actividades humanas que aumentan gases efecto invernadero', 'causas del calentamiento global', 'que causa cambio climatico', 'deforestacion y cambio climatico'],
+      responses: [
+        'Las principales actividades humanas que aumentan los gases de efecto invernadero son la **quema de combustibles fósiles** (para energía, transporte, industria), la **deforestación** (los árboles absorben CO2), la **agricultura intensiva** (producción de metano y óxido nitroso) y ciertos procesos industriales.',
+        'La generación de energía, la fabricación de productos, el transporte, la producción de alimentos y la tala de árboles son grandes contribuidores al aumento de estos gases en la atmósfera.'
+      ]
+    },
+    {
+      patterns: ['evidencias del cambio climático', 'pruebas cambio climático', 'consecuencias cambio climatico', 'efectos cambio climatico', 'aumento nivel del mar', 'deshielo glaciares', 'eventos climaticos extremos'],
+      responses: [
+        'Las **evidencias del cambio climático** incluyen el **aumento de la temperatura global**, el incremento del **nivel del mar** (por deshielo y expansión térmica del agua), el **deshielo de glaciares y casquetes polares**, la **acidificación oceánica** y la mayor frecuencia e intensidad de **eventos climáticos extremos** (olas de calor, sequías, inundaciones, huracanes).',
+        'Científicos de todo el mundo observan cambios inequívocos en la atmósfera, los océanos y los hielos que confirman el cambio climático.'
+      ]
+    },
+    {
+      patterns: ['cómo afecta el cambio climático a la biodiversidad', 'cambio climático y extinción', 'animales afectados por cambio climatico', 'impacto cambio climatico en especies'],
+      responses: [
+        'El **cambio climático** afecta la **biodiversidad** al alterar los **hábitats naturales**, aumentar la propagación de enfermedades, provocar la incapacidad de las especies para adaptarse a los nuevos climas y, en muchos casos, llevar a la **extinción** de plantas y animales.',
+        'Muchas especies no pueden moverse o adaptarse lo suficientemente rápido a los cambios de temperatura y patrones de lluvia, lo que las pone en grave peligro de desaparecer.'
+      ]
+    },
+    {
+      patterns: ['qué son energías renovables y cómo ayudan al cambio climático', 'energias renovables', 'energia limpia', 'tipos de energia renovable', 'solar', 'eolica', 'hidraulica', 'geotermica'],
+      responses: [
+        'Las **energías renovables** son fuentes naturales que se regeneran constantemente y **no emiten gases contaminantes**, como la **solar**, **eólica**, **hidráulica** y **geotérmica**. Ayudan al cambio climático al reducir drásticamente las emisiones de CO2 de los combustibles fósiles.',
+        'Son clave para un futuro más sostenible porque no agotan los recursos naturales y no contribuyen al calentamiento global. ¡Son la energía del futuro!'
+      ]
+    },
+    {
+      patterns: ['qué es la huella de carbono', 'huella de carbono definición', 'como calcular huella de carbono', 'reducir huella de carbono'],
+      responses: [
+        'La **huella de carbono** es la cantidad total de gases de efecto invernadero (principalmente CO2) emitidos directa o indirectamente por una persona, organización, evento o producto a lo largo de su ciclo de vida.',
+        'Es una medida de nuestro impacto en el planeta en términos de emisiones de gases contaminantes. Reducir nuestra huella de carbono es fundamental para combatir el cambio climático. Puedes encontrar calculadoras en línea para estimar la tuya.'
+      ]
+    },
+    {
+      patterns: ['que es adaptacion al cambio climatico', 'adaptacion climatica', 'estrategias de adaptacion'],
+      responses: [
+        'La **adaptación al cambio climático** se refiere a los ajustes en los sistemas humanos y naturales en respuesta a los impactos del cambio climático. Por ejemplo, construir infraestructuras más resistentes a inundaciones, o desarrollar cultivos que soporten sequías.',
+        'Es esencial para reducir los daños y aprovechar las oportunidades que puedan surgir de los cambios climáticos. Se complementa con la mitigación (reducir las emisiones de gases de efecto invernadero).'
+      ]
+    },
+    {
+      patterns: ['que es mitigacion del cambio climatico', 'mitigacion climatica', 'reducir emisiones'],
+      responses: [
+        'La **mitigación del cambio climático** se refiere a las acciones para reducir las emisiones de gases de efecto invernadero y así limitar el calentamiento global. Esto incluye la transición a energías renovables, la mejora de la eficiencia energética y la reforestación.',
+        'Es fundamental para prevenir los peores impactos del cambio climático, ya que aborda las causas raíz del problema.'
+      ]
+    },
+    {
+      patterns: ['acuerdo de paris', 'protocolo de kioto', 'leyes cambio climatico', 'cumbre del clima'],
+      responses: [
+        'El **Acuerdo de París** y el **Protocolo de Kioto** son acuerdos internacionales clave para combatir el cambio climático. El Protocolo de Kioto (1997) estableció objetivos vinculantes para reducir emisiones en países desarrollados, mientras que el Acuerdo de París (2015) es un acuerdo más amplio y universal que busca mantener el aumento de la temperatura global muy por debajo de los 2°C.',
+        'Ambos son esfuerzos globales para que los países trabajen juntos en la reducción de emisiones y la adaptación a los impactos del cambio climático.'
+      ]
+    },
+    {
+      patterns: ['sumideros de carbono', 'captura de carbono', 'secuestro de carbono'],
+      responses: [
+        'Los **sumideros de carbono** son sistemas naturales o artificiales que absorben más carbono del que emiten, ayudando a reducir la cantidad de CO2 en la atmósfera. Ejemplos naturales son los **bosques, océanos y suelos**. También hay tecnologías de captura y almacenamiento de carbono.',
+        'Son cruciales para lograr un equilibrio en el ciclo del carbono y combatir el calentamiento global.'
+      ]
+    },
+    {
+      patterns: ['efecto invernadero', 'que es el efecto invernadero', 'gases efecto invernadero'],
+      responses: [
+        'El **efecto invernadero** es un fenómeno natural por el cual ciertos gases en la atmósfera de la Tierra retienen parte de la energía que la superficie terrestre emite tras ser calentada por el sol, manteniendo una temperatura adecuada para la vida. El problema surge cuando las actividades humanas aumentan la concentración de estos gases.',
+        'Es vital para la vida en la Tierra, pero el exceso de gases de efecto invernadero, como el CO2, intensifica este efecto y causa el calentamiento global.'
+      ]
+    },
+    {
+      patterns: ['acidificación del océano', 'acidificacion oceanica', 'mares acidos'],
+      responses: [
+        'La **acidificación del océano** es la disminución del pH de los océanos, causada principalmente por la absorción del exceso de dióxido de carbono (CO2) de la atmósfera. Esto amenaza a muchos organismos marinos, especialmente a aquellos con caparazones o esqueletos de carbonato de calcio.',
+        'Tiene graves consecuencias para los arrecifes de coral, moluscos y la cadena alimentaria marina en general.'
+      ]
+    },
+    {
+      patterns: ['puntos de inflexion climaticos', 'tipping points'],
+      responses: [
+        'Los **puntos de inflexión climáticos** son umbrales críticos en el sistema climático global. Una vez que se cruzan, pueden llevar a cambios abruptos e irreversibles en el clima de la Tierra, con consecuencias potencialmente catastróficas.',
+        'Ejemplos incluyen el colapso de las grandes capas de hielo, la desestabilización de las corrientes oceánicas o la transformación de la selva amazónica en sabana.'
+      ]
+    },
+    {
+      patterns: ['geoingenieria climatica', 'manipulacion climatica'],
+      responses: [
+        'La **geoingeniería climática** se refiere a un conjunto de técnicas propuestas para intervenir deliberadamente el sistema climático de la Tierra a gran escala, con el objetivo de contrarrestar el calentamiento global. Esto podría incluir la captura de carbono o la gestión de la radiación solar.',
+        'Son tecnologías controvertidas debido a su potencial de efectos secundarios impredecibles y su escala masiva.'
+      ]
+    },
+    // --- Biodiversidad y conservación ---
+    {
+      patterns: ['qué es biodiversidad', 'definición biodiversidad', 'que es la biodiversidad', 'variedad de vida'],
+      responses: [
+        'La **biodiversidad** es la variedad de vida en la Tierra en todas sus formas y niveles: desde los genes dentro de una especie, pasando por la diversidad de especies, hasta la variedad de ecosistemas (bosques, océanos, desiertos).',
+        'Es la riqueza de animales, plantas, hongos y microorganismos, y los complejos ecosistemas que forman. ¡Es la base de la vida en nuestro planeta!'
+      ]
+    },
+    {
+      patterns: ['por qué es importante la biodiversidad', 'importancia biodiversidad', 'beneficios biodiversidad', 'valor de la biodiversidad'],
+      responses: [
+        'La **biodiversidad** es importante porque provee **servicios ecosistémicos** esenciales: polinización de cultivos, purificación de agua y aire, formación de suelos fértiles, control de plagas y enfermedades, y es fuente de alimentos, medicinas y materiales. Además, tiene un valor cultural y recreativo inmenso.',
+        'Es vital para el equilibrio de la vida en el planeta y para nuestra propia supervivencia y bienestar. ¡Sin biodiversidad, no podríamos vivir como lo hacemos!'
+      ]
+    },
+    {
+      patterns: ['principales amenazas a la biodiversidad', 'amenazas biodiversidad', 'que daña la biodiversidad', 'perdida de especies'],
+      responses: [
+        'Las principales **amenazas a la biodiversidad** son la **pérdida y fragmentación de hábitats** (por deforestación, urbanización), la **sobreexplotación** de recursos naturales (pesca, caza ilegal), la introducción de **especies invasoras**, la **contaminación**, el **cambio climático** y el **tráfico ilegal de especies**.',
+        'La destrucción de bosques, la pesca excesiva, el crecimiento de las ciudades y la contaminación global impactan negativamente la vida silvestre en todo el mundo.'
+      ]
+    },
+    {
+      patterns: ['qué son especies en peligro de extinción', 'especies en peligro', 'animales en extincion', 'plantas en extincion'],
+      responses: [
+        'Las **especies en peligro de extinción** son aquellas cuyas poblaciones han disminuido drásticamente y corren un alto riesgo de desaparecer por completo del planeta en un futuro cercano, si no se toman medidas urgentes para protegerlas.',
+        'Esto significa que si no actuamos rápido, podríamos perderlas para siempre, como el rinoceronte negro, el tigre de sumatra o el cóndor andino. ¡Es crucial protegerlas!'
+      ]
+    },
+    {
+      patterns: ['qué son áreas protegidas', 'función áreas protegidas', 'reservas naturales', 'parques nacionales', 'conservacion de la naturaleza'],
+      responses: [
+        'Las **áreas protegidas** son espacios geográficos definidos, reconocidos y gestionados legalmente para la conservación a largo plazo de la naturaleza, incluyendo sus ecosistemas, la diversidad biológica y los valores culturales asociados.',
+        'Su función es resguardar especies, hábitats y procesos ecológicos vitales, además de ofrecer oportunidades de investigación, educación y recreación sostenible.'
+      ]
+    },
+    {
+      patterns: ['que es deforestacion', 'consecuencias deforestacion', 'tala de arboles', 'quema de bosques'],
+      responses: [
+        'La **deforestación** es la tala o quema de bosques de forma masiva para convertir la tierra en otros usos, como agricultura, ganadería o urbanización. Sus consecuencias son graves: **pérdida de biodiversidad**, **cambio climático** (los árboles absorben CO2), **erosión del suelo** y alteración del ciclo del agua.',
+        'Los bosques son los pulmones de la Tierra, y su destrucción tiene un impacto devastador en el equilibrio ecológico global.'
+      ]
+    },
+    {
+      patterns: ['que es ecosistema', 'definicion ecosistema', 'tipos de ecosistemas', 'biomas', 'cadena trofica'],
+      responses: [
+        'Un **ecosistema** es un sistema biológico complejo formado por una comunidad de seres vivos (biocenosis) y el medio físico donde se relacionan (biotopo). Incluye las interacciones entre los organismos y su entorno.',
+        'Pueden ser grandes como un océano o pequeños como un estanque. Hay ecosistemas terrestres (bosques, desiertos) y acuáticos (ríos, mares).'
+      ]
+    },
+    {
+      patterns: ['servicios ecosistemicos', 'beneficios de la naturaleza', 'beneficios de los ecosistemas'],
+      responses: [
+        'Los **servicios ecosistémicos** son los beneficios que los seres humanos obtenemos de la naturaleza y del funcionamiento de los ecosistemas. Incluyen la provisión de agua y alimentos, la regulación del clima y enfermedades, el apoyo a la polinización y la formación de suelos, y beneficios culturales y recreativos.',
+        'Son esenciales para nuestra supervivencia y bienestar, y resaltan la importancia de proteger la biodiversidad.'
+      ]
+    },
+    {
+      patterns: ['blanqueamiento de coral', 'arrecifes de coral', 'corales y cambio climatico'],
+      responses: [
+        'El **blanqueamiento de coral** es un proceso en el que los corales estresados (generalmente por el aumento de la temperatura del agua) expulsan las algas simbióticas que les dan color y nutrientes. Esto los debilita y, si el estrés persiste, pueden morir.',
+        'Es una de las consecuencias más visibles y devastadoras del cambio climático y la acidificación de los océanos para los ecosistemas marinos.'
+      ]
+    },
+    {
+      patterns: ['especies invasoras', 'especies exoticas invasoras', 'problemas especies invasoras'],
+      responses: [
+        'Una **especie invasora** es aquella que ha sido introducida por el ser humano, de forma intencional o accidental, fuera de su área de distribución natural, y que al establecerse causa impactos negativos en la biodiversidad nativa, la economía o la salud humana.',
+        'Pueden desplazar a las especies locales, alterar los ecosistemas y generar pérdidas económicas en la agricultura o pesca.'
+      ]
+    },
+    {
+      patterns: ['bioindicador', 'indicadores ambientales'],
+      responses: [
+        'Un **bioindicador** es una especie o grupo de especies cuya presencia, abundancia o salud sirve como medida de la calidad ambiental de un ecosistema. Por ejemplo, la presencia de ciertas algas o insectos en un río puede indicar su nivel de contaminación.',
+        'Son herramientas útiles para monitorear la salud de los ecosistemas y detectar problemas ambientales.'
+      ]
+    },
+    {
+      patterns: ['extincion masiva', 'sexta extincion'],
+      responses: [
+        'Una **extinción masiva** es un evento en el que un gran número de especies se extinguen en un período relativamente corto de tiempo. Actualmente, muchos científicos sugieren que estamos entrando en la **sexta extinción masiva**, causada principalmente por las actividades humanas.',
+        'Las cinco extinciones masivas anteriores fueron causadas por eventos naturales. Esta vez, somos nosotros quienes estamos impulsando la pérdida de biodiversidad a un ritmo alarmante.'
+      ]
+    },
+    // --- Gestión de residuos y reciclaje ---
+    {
+      patterns: ['qué son residuos sólidos urbanos', 'residuos urbanos', 'basura que es', 'desechos domesticos', 'gestion de basura'],
+      responses: [
+        'Los **residuos sólidos urbanos (RSU)** son los desechos generados en hogares, comercios, oficinas y otros establecimientos dentro de las áreas urbanas, es decir, ¡la basura que producimos cada día en la ciudad!',
+        'Es la basura que generamos diariamente en nuestras casas, tiendas y lugares de trabajo, y su correcta gestión es clave para un ambiente limpio y sano.'
+      ]
+    },
+    {
+      patterns: ['jerarquía gestión residuos', 'reducir reutilizar reciclar', 'las tres r', '3r', 'regla de las 3r'],
+      responses: [
+        'La **jerarquía de gestión de residuos** se basa en las famosas **3 R**: **Reducir** la generación de residuos, **Reutilizar** productos y materiales antes de desecharlos, y **Reciclar** aquellos materiales que pueden ser procesados para nuevos usos. ¡Es el camino para minimizar el impacto de la basura!',
+        'Es la base para una gestión de residuos sostenible: primero evita que se generen, luego dales una segunda vida y, si no es posible, recíclalos. ¡Siempre en ese orden de prioridad!'
+      ]
+    },
+    {
+      patterns: ['qué se puede reciclar', 'productos reciclables', 'que va en cada contenedor', 'contenedor amarillo', 'contenedor azul', 'contenedor verde'],
+      responses: [
+        'Generalmente se puede reciclar **papel**, **cartón**, **vidrio**, la mayoría de los **plásticos** (busca los símbolos con números, como PET #1, HDPE #2), **metales** (aluminio, acero) y, en puntos específicos, algunos electrónicos y baterías.',
+        'Asegúrate de limpiar los envases y separar los materiales según las normativas de tu localidad para un reciclaje efectivo. ¡Lo orgánico va aparte para compostar!'
+      ]
+    },
+    {
+      patterns: ['cómo funciona reciclaje papel plástico vidrio metal', 'proceso reciclaje', 'reciclar papel', 'reciclar plastico', 'reciclar vidrio', 'reciclar metal'],
+      responses: [
+        'El **reciclaje** transforma desechos en nuevos productos. El **papel** se convierte en pulpa; el **plastico** se tritura, se lava y se funde; el **vidrio** se tritura y se funde; y los **metales** se funden para crear nuevas materias primas. ¡Así se reduce la necesidad de extraer recursos nuevos!',
+        'Es un proceso que alarga la vida útil de los materiales y reduce la contaminación. Por eso es tan importante separar correctamente en casa.'
+      ]
+    },
+    {
+      patterns: ['qué son residuos orgánicos', 'compostaje', 'cómo compostar residuos orgánicos', 'abono organico', 'compost'],
+      responses: [
+        'Los **residuos orgánicos** son restos biodegradables como cáscaras de frutas, verduras, restos de comida, hojas y ramas. Pueden transformarse en abono natural (compost) mediante un proceso de descomposición por microorganismos.',
+        '**Compostar** ayuda a fertilizar el suelo de forma natural, mejora la calidad de la tierra y reduce drásticamente la cantidad de basura que va a los vertederos. ¡Es muy beneficioso!'
+      ]
+    },
+    {
+      patterns: ['que es vertedero', 'problemas vertederos', 'relleno sanitario'],
+      responses: [
+        'Un **vertedero** es un lugar donde se depositan los residuos sólidos. Aunque algunos están controlados, muchos generan problemas como la contaminación del suelo y agua por lixiviados, emisiones de gases de efecto invernadero (metano), malos olores y proliferación de plagas.',
+        'Son una solución temporal para la basura, pero el objetivo es reducir su uso al máximo mediante la reducción, reutilización y reciclaje de residuos.'
+      ]
+    },
+    {
+      patterns: ['economia circular', 'que es economia circular', 'modelo circular'],
+      responses: [
+        'La **economía circular** es un modelo de producción y consumo que busca **extender el ciclo de vida de los productos** y materiales. Se basa en reducir al mínimo la generación de residuos, reutilizar y reciclar al máximo, y reparar en lugar de desechar. ¡Es lo opuesto a la economía lineal de "usar y tirar"!',
+        'Su objetivo es mantener los recursos en uso el mayor tiempo posible, recuperando y regenerando productos y materiales al final de su vida útil. Ayuda a reducir la extracción de recursos vírgenes y la contaminación.'
+      ]
+    },
+    {
+      patterns: ['reciclaje de ropa', 'moda sostenible', 'impacto fast fashion', 'ropa ecologica'],
+      responses: [
+        'El **reciclaje de ropa** es muy importante para reducir la cantidad de residuos textiles. Puedes donar ropa en buen estado, comprar en tiendas de segunda mano, o buscar puntos de recolección de textiles para que se reciclen sus fibras. La **moda sostenible** busca reducir el impacto ambiental y social de la industria de la moda.',
+        'La industria de la moda rápida genera muchos residuos y contaminación. Optar por ropa duradera, de segunda mano o de marcas sostenibles, es una excelente manera de ayudar al planeta.'
+      ]
+    },
+    {
+      patterns: ['ecopunto', 'punto limpio', 'centro de reciclaje'],
+      responses: [
+        'Un **ecopunto** (también conocido como punto limpio o centro de reciclaje) es un lugar donde se recogen de forma selectiva residuos que no deben ir a los contenedores habituales, como aparatos electrónicos, baterías, aceites, escombros, o muebles viejos.',
+        'Son fundamentales para gestionar correctamente residuos especiales y evitar que contaminen el medio ambiente. ¡Asegúrate de llevar tus residuos especiales al ecopunto más cercano!'
+      ]
+    },
+    // --- Recursos Naturales ---
+    {
+      patterns: ['que son recursos naturales', 'tipos de recursos naturales', 'recursos de la tierra', 'recursos del planeta'],
+      responses: [
+        'Los **recursos naturales** son elementos de la naturaleza que la humanidad utiliza para satisfacer sus necesidades. Se dividen en **renovables** (agua, sol, viento, bosques) y **no renovables** (petróleo, carbón, gas natural, minerales).',
+        'Su gestión sostenible es crucial para asegurar que las generaciones futuras también puedan beneficiarse de ellos.'
+      ]
+    },
+    {
+      patterns: ['recursos renovables', 'ejemplos renovables', 'que es renovable', 'energia infinita'],
+      responses: [
+        'Los **recursos renovables** son aquellos que se regeneran a una velocidad mayor o igual a la de su consumo, por lo que son inagotables a escala humana si se gestionan bien. Ejemplos incluyen la energía solar, el viento, el agua, la biomasa y los bosques (con reforestación).',
+        'Son clave para un futuro sostenible porque no se agotan y su uso tiene un menor impacto ambiental.'
+      ]
+    },
+    {
+      patterns: ['recursos no renovables', 'ejemplos no renovables', 'que es no renovable', 'combustibles fosiles'],
+      responses: [
+        'Los **recursos no renovables** son aquellos que existen en cantidades limitadas y que no se regeneran o lo hacen a una velocidad tan lenta que su uso actual los agota. Ejemplos son los **combustibles fósiles** (petróleo, carbón, gas natural) y los **minerales** (oro, plata, hierro).',
+        'Su extracción y uso causan un gran impacto ambiental y su agotamiento es una preocupación importante para el futuro.'
+      ]
+    },
+    {
+      patterns: ['escasez agua', 'crisis del agua', 'falta de agua', 'problemas del agua'],
+      responses: [
+        'La **escasez de agua** es la falta de recursos hídricos suficientes para satisfacer la demanda de una región. Es un problema creciente debido al cambio climático, la contaminación del agua, el crecimiento de la población y el uso ineficiente.',
+        'Afecta la agricultura, la industria y el acceso a agua potable para millones de personas. El ahorro y la gestión sostenible del agua son esenciales para afrontarla.'
+      ]
+    },
+    {
+      patterns: ['desertificacion', 'degradacion del suelo', 'suelo seco'],
+      responses: [
+        'La **desertificación** es la degradación de la tierra en zonas áridas, semiáridas y subhúmedas secas, causada principalmente por las actividades humanas y las variaciones climáticas. Pierde su capacidad productiva y se vuelve árida.',
+        'Es un problema grave que afecta la seguridad alimentaria y la biodiversidad, causado por la deforestación, el pastoreo excesivo y las prácticas agrícolas insostenibles.'
+      ]
+    },
+    {
+      patterns: ['huella hidrica', 'huella de agua'],
+      responses: [
+        'La **huella hídrica** es un indicador que mide el volumen total de agua dulce utilizada para producir los bienes y servicios que consumimos. Incluye el agua usada directamente y la "agua virtual" contenida en los productos.',
+        'Nos ayuda a entender el impacto de nuestro consumo en los recursos hídricos globales y a tomar decisiones más conscientes para reducir el desperdicio de agua.'
+      ]
+    },
+    {
+      patterns: ['desalinización', 'agua de mar potable'],
+      responses: [
+        'La **desalinización** es el proceso de eliminar la sal y los minerales del agua de mar o salobre para hacerla apta para el consumo humano, la agricultura o la industria. Es una solución para la escasez de agua dulce, pero es costosa y requiere mucha energía.',
+        'Aunque es una tecnología prometedora, se busca constantemente hacerla más eficiente y sostenible para reducir su impacto ambiental.'
+      ]
+    },
+    // --- Sostenibilidad y Desarrollo Sostenible ---
+    {
+      patterns: ['que es sostenibilidad', 'desarrollo sostenible definicion', 'que es el desarrollo sostenible', 'pilares del desarrollo sostenible'],
+      responses: [
+        'La **sostenibilidad** o **desarrollo sostenible** es el desarrollo que satisface las necesidades del presente sin comprometer la capacidad de las futuras generaciones para satisfacer sus propias necesidades. Se basa en tres pilares: ambiental, social y económico.',
+        'Busca un equilibrio entre el crecimiento económico, la equidad social y la protección del medio ambiente para garantizar un futuro habitable y justo para todos.'
+      ]
+    },
+    {
+      patterns: ['objetivos desarrollo sostenible', 'ODS que son', 'agenda 2030', '17 ods'],
+      responses: [
+        'Los **Objetivos de Desarrollo Sostenible (ODS)** son 17 metas globales interconectadas establecidas por la ONU en 2015 para lograr un futuro más sostenible y justo para todos. Abordan desafíos como la pobreza, el hambre, la salud, la educación, la igualdad de género, el agua limpia, la energía asequible, el cambio climático y la vida en los ecosistemas.',
+        'Son una hoja de ruta para la humanidad con miras al 2030, promoviendo la acción en todas las áreas para transformar nuestro mundo.'
+      ]
+    },
+    {
+      patterns: ['que es ecologia', 'ecologia definicion', 'estudio medio ambiente', 'ciencia ambiental'],
+      responses: [
+        'La **ecología** es la rama de la biología que estudia las relaciones de los diferentes seres vivos entre sí y con su entorno: la distribución, abundancia, biodiversidad, comportamiento, las interacciones entre especies y las modificaciones que causan en el ambiente.',
+        'Es fundamental para entender cómo funcionan los ecosistemas y cómo nuestras acciones los impactan, permitiéndonos diseñar estrategias de conservación.'
+      ]
+    },
+    {
+      patterns: ['agricultura sostenible', 'agricultura ecologica', 'cultivos sostenibles'],
+      responses: [
+        'La **agricultura sostenible** son prácticas agrícolas que buscan producir alimentos de manera que se protejan los recursos naturales, se preserve la biodiversidad, y se mejore el bienestar social y económico de las comunidades rurales a largo plazo.',
+        'Implica reducir el uso de químicos, rotación de cultivos, uso eficiente del agua y manejo integrado de plagas, entre otros.'
+      ]
+    },
+    {
+      patterns: ['consumo local', 'comprar local', 'productos locales', 'mercado local'],
+      responses: [
+        '**Comprar productos locales** ayuda al medio ambiente al reducir la **huella de carbono** asociada al transporte de alimentos. También apoya a los agricultores y negocios de tu comunidad, fomentando la economía local.',
+        'Optar por frutas y verduras de temporada y de tu región es una excelente manera de consumir de forma más sostenible y fresca.'
+      ]
+    },
+    {
+      patterns: ['turismo sostenible', 'turismo ecologico', 'viajes responsables', 'ecoturismo'],
+      responses: [
+        'El **turismo sostenible** busca minimizar los impactos negativos del turismo en el medio ambiente y la cultura local, al mismo tiempo que apoya la economía local y la conservación. Se trata de ser un viajero responsable.',
+        'Esto incluye respetar la vida silvestre, no dejar basura, apoyar a los negocios locales y ser consciente de tu consumo de agua y energía durante tus viajes.'
+      ]
+    },
+    {
+      patterns: ['materiales biodegradables', 'productos biodegradables', 'que es biodegradable', 'plastico biodegradable'],
+      responses: [
+        'Los **materiales biodegradables** son aquellos que pueden descomponerse de forma natural y completa en el medio ambiente, transformándose en elementos básicos por la acción de microorganismos, sin dejar residuos tóxicos. Esto es fundamental para reducir la contaminación.',
+        'Buscar productos con la etiqueta "biodegradable" o "compostable" ayuda a minimizar el impacto de tus desechos en el planeta.'
+      ]
+    },
+    {
+      patterns: ['conciencia ambiental', 'educacion ambiental', 'importancia de educacion ambiental', 'alfabetizacion ambiental'],
+      responses: [
+        'La **conciencia ambiental** y la **educación ambiental** son fundamentales. Nos ayudan a entender los desafíos ambientales, a desarrollar valores de respeto por la naturaleza y a adquirir las habilidades para tomar acciones que promuevan la sostenibilidad. ¡Es la base para un futuro más verde!',
+        'No podemos proteger lo que no entendemos. La educación ambiental empodera a las personas para que se conviertan en agentes de cambio y defensores de nuestro planeta.'
+      ]
+    },
+    {
+      patterns: ['justicia climatica', 'equidad climatica'],
+      responses: [
+        'La **justicia climática** es un concepto que reconoce que los impactos del cambio climático no son uniformes y afectan desproporcionadamente a las poblaciones más vulnerables, a menudo las que menos han contribuido al problema. Busca una distribución equitativa de las cargas y beneficios del cambio climático.',
+        'Implica que las soluciones al cambio climático deben abordar las desigualdades sociales y económicas.'
+      ]
+    },
+    {
+      patterns: ['capital natural', 'recursos naturales valor'],
+      responses: [
+        'El **capital natural** se refiere a las reservas de recursos naturales que proveen bienes y servicios ambientales esenciales para la vida y la economía. Incluye los ecosistemas, la biodiversidad, el aire, el agua, el suelo y los minerales.',
+        'Es fundamental reconocer su valor económico y ecológico para asegurar su conservación y uso sostenible.'
+      ]
+    },
+    {
+      patterns: ['soberanía alimentaria', 'derecho a la alimentacion'],
+      responses: [
+        'La **soberanía alimentaria** es el derecho de los pueblos a definir sus propias políticas y estrategias sostenibles de producción, distribución y consumo de alimentos, con base en sus culturas y ecologías locales. Prioriza la producción local y el control de los alimentos por las comunidades.',
+        'Es una alternativa al modelo agroindustrial globalizado, buscando asegurar el acceso a alimentos sanos y culturalmente apropiados para todos.'
+      ]
+    },
+    {
+      patterns: ['soberanía energética', 'autonomia energetica'],
+      responses: [
+        'La **soberanía energética** se refiere a la capacidad de un país o comunidad de controlar sus fuentes de energía y sus políticas energéticas, reduciendo la dependencia de fuentes externas y promoviendo la energía limpia y local.',
+        'Busca una transición hacia sistemas energéticos justos, democráticos y sostenibles.'
+      ]
+    },
+    {
+      patterns: ['externalidades ambientales', 'costos ambientales'],
+      responses: [
+        'Las **externalidades ambientales** son los costos o beneficios ambientales de una actividad económica que no se reflejan en el precio de mercado del producto o servicio. Por ejemplo, la contaminación que genera una fábrica y que afecta la salud de una comunidad es una externalidad negativa.',
+        'Son importantes porque revelan los "costos ocultos" de la producción y el consumo en el medio ambiente y la sociedad.'
+      ]
+    },
+    {
+      patterns: ['contaminacion difusa', 'fuentes no puntuales contaminacion'],
+      responses: [
+        'La **contaminación difusa** (o no puntual) es la que proviene de fuentes muy dispersas y no fácilmente identificables, a diferencia de un tubo de escape o una chimenea de fábrica. Ejemplos incluyen la escorrentía agrícola con fertilizantes y pesticidas, o el arrastre de contaminantes de áreas urbanas por la lluvia.',
+        'Es difícil de controlar porque no tiene un único punto de origen, requiriendo estrategias de gestión más amplias.'
+      ]
+    },
+    {
+      patterns: ['síndrome de la rana hervida', 'rana hervida', 'cambio gradual'],
+      responses: [
+        'El **síndrome de la rana hervida** es una metáfora que describe la incapacidad de reaccionar a una amenaza que se desarrolla de forma lenta y gradual. En el contexto ambiental, se usa para ilustrar cómo las personas pueden no percibir la gravedad del cambio climático hasta que sus impactos son irreversibles.',
+        'Nos alerta sobre la importancia de actuar frente a problemas ambientales que avanzan poco a poco.'
+      ]
+    },
+    {
+      patterns: ['enverdecimiento urbano', 'ciudades verdes', 'infraestructura verde'],
+      responses: [
+        'El **enverdecimiento urbano** es el proceso de integrar y expandir los espacios verdes, la vegetación y la infraestructura natural dentro de las ciudades. Esto mejora la calidad del aire, reduce el efecto "isla de calor", gestiona el agua de lluvia y aumenta la biodiversidad urbana.',
+        'Contribuye significativamente a la calidad de vida de los habitantes y a la sostenibilidad de las ciudades.'
+      ]
+    },
+    {
+      patterns: ['IPCC', 'panel intergubernamental cambio climatico'],
+      responses: [
+        'El **IPCC** significa Panel Intergubernamental de Expertos sobre el Cambio Climático. Es el principal organismo internacional para evaluar el cambio climático, proporcionando evaluaciones científicas periódicas para informar a los formuladores de políticas.',
+        'Sus informes son la base científica para las negociaciones internacionales sobre el clima y las decisiones políticas.'
+      ]
+    }
+  ];
+
+
+  const fallbackResponses = [
+    '¡Qué buena pregunta! Todavía estoy aprendiendo, pero intenta preguntarme algo relacionado con reciclaje, agua, cambio climático o biodiversidad.',
+    'No entendí del todo, ¿podrías reformular la pregunta? Estoy aquí para ayudarte a cuidar el planeta.',
+    'Hmm, no tengo esa información en mi base de datos. Prueba preguntándome sobre temas como la contaminación, las energías renovables o qué puedes hacer desde casa.',
+    'Mi conocimiento es sobre el medio ambiente. ¿Quizás quieres saber sobre el ahorro de energía o la importancia de los árboles?',
+    'Lo siento, no comprendo tu consulta. Intenta usar palabras clave como "reciclaje", "agua", "bosques" o "cambio climático".',
+    'No estoy seguro de cómo responder a eso. Intenta con una pregunta más específica sobre temas ambientales.'
+  ];
+
+  function addMessage(text, sender = 'bot') {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message', sender);
+    msgDiv.textContent = text;
+    chatbotMessages.appendChild(msgDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+  }
+
+  function addBotMessage(text) {
+    addMessage(text, 'bot');
+  }
+
+  function addUserMessage(text) {
+    addMessage(text, 'user');
+  }
+
+  function cleanInput(input) {
+    return input.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[.,!¿?¡]/g, '').trim();
+  }
+
+  function getBotResponse(input) {
+    const text = cleanInput(input);
+
+    // Try to find a direct pattern match first (includes or exact)
+    for (const entry of knowledgeBase) {
+      for (const pattern of entry.patterns) {
+        const cleanPattern = cleanInput(pattern);
+        if (text.includes(cleanPattern) || cleanPattern.includes(text)) {
+          return randomChoice(entry.responses);
+        }
+      }
+    }
+
+    // If no direct pattern match, try keyword matching for broader coverage
+    const inputWords = text.split(' ').filter(word => word.length > 2); // Filter out very short words
+    if (inputWords.length > 0) {
+      for (const entry of knowledgeBase) {
+        for (const pattern of entry.patterns) {
+          const patternWords = cleanInput(pattern).split(' ').filter(word => word.length > 2);
+          const commonWords = inputWords.filter(word => patternWords.includes(word));
+          // If there's a good percentage of common words, consider it a match
+          if (commonWords.length > 0 && commonWords.length >= Math.ceil(patternWords.length * 0.5)) {
+            return randomChoice(entry.responses);
+          }
+        }
+      }
+    }
+
+    return randomChoice(fallbackResponses);
+  }
+
+  function randomChoice(array) {
+    return array[Math.floor(Math.random() * array.length)];
+  }
+
+  // Chatbot toggle
+  let chatbotOpen = false;
+  chatbotButton.addEventListener('click', () => {
+    chatbotOpen = !chatbotOpen;
+    chatbotWindow.setAttribute('aria-hidden', !chatbotOpen);
+    chatbotButton.setAttribute('aria-expanded', chatbotOpen);
+    chatbotWindow.style.display = chatbotOpen ? 'flex' : 'none';
+    if (chatbotOpen) {
+      chatbotInput.focus();
+      if (chatbotMessages.children.length === 0) {
+        addBotMessage('¡Hola! Soy EcoBot 🌿. Pregúntame cualquier cosa sobre educación ambiental.');
+      }
+    }
+  });
+
+  chatbotInput.addEventListener('input', () => {
+    chatbotSend.disabled = chatbotInput.value.trim().length === 0;
+  });
+
+  function sendUserMessage() {
+    const userText = chatbotInput.value.trim();
+    if (!userText) return;
+    addUserMessage(userText);
+    chatbotInput.value = '';
+    chatbotSend.disabled = true;
+
+    setTimeout(() => {
+      const botReply = getBotResponse(userText);
+      addBotMessage(botReply);
+    }, 800);
+  }
+
+  chatbotSend.addEventListener('click', sendUserMessage);
+  chatbotInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !chatbotSend.disabled) {
+      e.preventDefault();
+      sendUserMessage();
+    }
+  });
+
+  chatbotWindow.style.display = 'none';
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && chatbotOpen) {
+      chatbotButton.click();
+      chatbotButton.focus();
+    }
+  });
+
+</script>
+</body>
+</html>
